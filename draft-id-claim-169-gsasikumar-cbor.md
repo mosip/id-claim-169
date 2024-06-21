@@ -5,7 +5,7 @@ abbrev: "QR-Code Claim 169"
 
 category: Standard
 
-docname: draft-id-claim-gsasikumar-cbor-latest
+docname: draft-id-claim-169-gsasikumar-cbor.md
 
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 
