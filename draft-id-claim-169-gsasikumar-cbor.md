@@ -35,7 +35,7 @@ organization = "Ooru Digital"
 fullname = "Sasikumar G"
 organization = "MOSIP"
   [author.address]
-  email: "sasi@mosip.io"
+  email = "sasi@mosip.io"
 
 [[author]]
 fullname = "Sreenadh S"
@@ -44,15 +44,11 @@ organization = "MOSIP"
    email = "sreeavtar@gmail.com"
 %%%
 
-normative:
-
-informative:
-
---- abstract
+.# Abstract
 
 This document specifies a generic data structure and encoding mechanism for storing the Identity Data of a registered person using any ID platform. It also provides a transport encoding mechanism in a machine-readable optical format (QR).
 
---- middle
+{mainmatter}
 
 Introduction
 ===============
