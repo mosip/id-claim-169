@@ -9,7 +9,7 @@ keyword = ["CBOR", "169", "QR Code", "Identity"]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-id-claim-169-gsasikumar-cbor"
+value = "draft-id-claim-169-gsasikumar-cbor-latest"
 stream = "IETF"
 status = "standard"
 
