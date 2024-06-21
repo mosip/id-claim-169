@@ -12,13 +12,11 @@ area = AREA
 workgroup = COSE
 keyword= ["CBOR", "169", "QR Code", "Identity"]
 
-venue = 
-group = WG
-type = Working Group
-mail = <WG@example.com>
-arch = <https://example.com/WG>
-github = <https://github.com/mosip/open-spec>
-latest = <https://example.com/LATEST>
+[seriesInfo]
+name = "Internet-Draft"
+value = "draft-id-claim-169-gsasikumar-cbor"
+stream = "IETF"
+status = "standard"
 
 [[author]]
 fullname = Resham Chugani
