@@ -1,7 +1,7 @@
 %%%
 title = "Id Claim 169 in QR-Code - CBOR"
 abbrev = "QR-Code Claim 169"
-category = Standard
+category = standard
 docname = draft-id-claim-169-gsasikumar-cbor.md
 submissiontype = IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number = 
@@ -10,7 +10,7 @@ consensus = true
 v = 3
 area = AREA
 workgroup = COSE
-keyword= ["CBOR", "169", "QR Code", "Identity"]
+keyword = ["CBOR", "169", "QR Code", "Identity"]
 
 [seriesInfo]
 name = "Internet-Draft"
