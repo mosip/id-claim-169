@@ -153,8 +153,6 @@ IANA is requested to register the claim 169 in "CBOR Web Token (CWT) Claims" reg
 
 # Acknowledgments
 
-{:numbered="false"}
-
 TODO acknowledge.
 
 {backmatter}
