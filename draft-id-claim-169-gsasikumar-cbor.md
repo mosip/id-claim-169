@@ -1,4 +1,4 @@
----
+%%%
 title: "Id Claim 169 in QR-Code - CBOR"
 
 abbrev: "QR-Code Claim 169"
@@ -41,6 +41,8 @@ venue:
   github: <https://github.com/mosip/open-spec>
 
   latest: <https://example.com/LATEST>
+
+%%%
 
 author:
 
