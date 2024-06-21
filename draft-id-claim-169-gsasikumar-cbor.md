@@ -1,54 +1,73 @@
-%%%
-title: "Identity Data in QR-Code - CBOR"
+title: "Id Claim 169 in QR-Code - CBOR"
+
 abbrev: "QR-Code Claim 169"
+
 category: Standard
 
 docname: draft-id-claim-gsasikumar-cbor-latest
+
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+
 number:
+
 date:
+
 consensus: true
+
 v: 3
+
 area: AREA
+
 workgroup: COSE
+
 keyword:
- - CBOR
- - 169
- - QR Code
- - 
+
+- CBOR
+- 169
+- QR Code
+- Identity
+
 venue:
+
   group: WG
+
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: https://github.com/mosip/open-spec
-  latest: https://example.com/LATEST
+
+  mail: <WG@example.com>
+
+  arch: <https://example.com/WG>
+
+  github: <https://github.com/mosip/open-spec>
+
+  latest: <https://example.com/LATEST>
 
 author:
- -
-    fullname: Resham Chugani
-    organization: MOSIP
-    email: resham@mosip.io
- -
-    fullname: Mahammed Taheer
-    organization: CyberPWN
-    email: mohd.taheer@gmail.com
- -
-    fullname: Rounak Nayak 
-    organization: Ooru Digital
-    email: rounak@ooru.io
- -
-    fullname: Sasikumar G 
-    organization: MOSIP
-    email: sasi@mosip.io
- -
-    fullname: Sreenadh S
-    organization: MOSIP
-    email: sreeavtar@gmail.com
+
+```
+fullname: Resham Chugani
+organization: MOSIP
+email: resham@mosip.io
+
+fullname: Mahammed Taheer
+organization: CyberPWN
+email: mohd.taheer@gmail.com
+
+fullname: Rounak Nayak
+organization: Ooru Digital
+email: rounak@ooru.io
+
+fullname: Sasikumar G
+organization: MOSIP
+email: sasi@mosip.io
+
+fullname: Sreenadh S
+organization: MOSIP
+ email: sreeavtar@gmail.com
+```
+
 normative:
 
 informative:
-
 
 --- abstract
 
@@ -56,7 +75,8 @@ This document specifies a generic data structure and encoding mechanism for stor
 
 --- middle
 
-# Introduction
+Introduction
+===============
 
 Once a person is registered in an identity system, their data serves as the foundation for identification, granting them access to social benefits and government services. The level of assurance in this identification process varies depending on the authentication methods employed. Low assurance is achieved through basic identifiers like ID numbers, demographic data, passwords, or PINs. Conversely, higher assurance levels are attained through one-time passwords (OTP) and biometrics.
 
@@ -70,9 +90,11 @@ To tackle the challenge above, we propose a standard CBOR-based QR Code that inv
 
 Claim 169 represents a JSON Object that includes the below table as ID attributes. You can find an illustration of the ID structure contained within Claim 169, where:
 
-# Semantics
+Semantics
+===============
 
-## CBOR Map Structure Overview
+CBOR Map Structure Overview
+---------------------------
 
 **All the fields here are Optional**
 
@@ -98,53 +120,55 @@ Claim 169 represents a JSON Object that includes the below table as ID attribute
 | 18        | [int] | Best Quality Fingers | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence              |
 | 19.. 99   | tstr  | Reserved             | Reserved for future attributes                |
 
+CBOR Map Structure Example
+--------------------------
 
-## CBOR Map Structure Example
 ```CWT
-{
-   "1":"COUN",
-   "6":1665980929,
-   "8":{
-      "3":"dfd1aa976d8d4575a0fe34b96de2bfad"
-   },
-   "169":{
-        "1": "11110000324013",
-        "2": "1.0",
-        "3": "EN",
-        "4": "Peter M Jhon",
-        "5": "Peter",
-        "6": "M",
-        "7": "Jhon",
-        "8": "19880102",
-        "9": 1,
-        "10": "New City, METRO LINE, PA",
-        "11": "peter@example.com",
-        "12": "+1 234-567",
-        "13": "US",
-        "14": 2,
-        "15": "Jhon Honai",
-        "16": "03CBABDF83D068ACB5DE65B3CDF25E0036F2C546CB90378C587A076E7A759DFD27CA7872B6CDFF339AEAACA61A6023FD1D305A9B4F33CAA248CEDE38B67D7C915C59A51BB4E77D10077A625258873183F82D65F4C482503A5A01F41DEE612C3542E5370987815E592B8EA2020FD3BDDC747897DB10237EAD179E55B441BC6D8BAD07CE535129CF8D559445CC3A29D746FBF1174DE2E7C0F3439BE7DBEA4520CF88825AAE6B1F291A746AB8177C65B2A459DD19BD32C0C3070004B85C1D63034707CC690AB0BA023350C8337FC6894061EB8A714A8F22FE2365E7A904C72DEC9746ABEA1A3296ECACD1A40450794EDCD2B34844E7C19EB7FB1A4AF3B05C3B374BD2941603F72D3F9A62EAB9A2FDAEEEEC8EE6E350F8A1863C0A0AB1B4058D154559A1CD5133EFCF682ABC339960819C9427889D60380B635A7D21D017974BBA57798490F668ADD86DA58125D9C4C1202CA1308F7734E43E8F77CEB0AF968A8F8B88849F9B98B26620399470ED057E7931DED82876DCA896A30D0031A8CBD7B9EDFDF16C15C6853F4F8D9EEC09317C84EDAE4B349FE54D23D8EC7DC9BB9F69FD7B7B23383B64F22E25F",
-        "17": 2,
-        "18": [1,2],
-}
+   {
+      "1":"COUN",
+      "6":1665980929,
+      "8":{
+         "3":"dfd1aa976d8d4575a0fe34b96de2bfad"
+      },
+      "169":{
+         "1": "11110000324013",
+         "2": "1.0",
+         "3": "EN",
+         "4": "Peter M Jhon",
+         "5": "Peter",
+         "6": "M",
+         "7": "Jhon",
+         "8": "19880102",
+         "9": 1,
+         "10": "New City, METRO LINE, PA",
+         "11": "peter@example.com",
+         "12": "+1 234-567",
+         "13": "US",
+         "14": 2,
+         "15": "Jhon Honai",
+         "16": "03CBABDF83D068ACB5DE65B3CDF25E0036F2C546CB90378C587A076E7A759DFD27CA7872B6CDFF339AEAACA61A6023FD1D305A9B4F33CAA248CEDE38B67D7C915C59A51BB4E77D10077A625258873183F82D65F4C482503A5A01F41DEE612C3542E5370987815E592B8EA2020FD3BDDC747897DB10237EAD179E55B441BC6D8BAD07CE535129CF8D559445CC3A29D746FBF1174DE2E7C0F3439BE7DBEA4520CF88825AAE6B1F291A746AB8177C65B2A459DD19BD32C0C3070004B85C1D63034707CC690AB0BA023350C8337FC6894061EB8A714A8F22FE2365E7A904C72DEC9746ABEA1A3296ECACD1A40450794EDCD2B34844E7C19EB7FB1A4AF3B05C3B374BD2941603F72D3F9A62EAB9A2FDAEEEEC8EE6E350F8A1863C0A0AB1B4058D154559A1CD5133EFCF682ABC339960819C9427889D60380B635A7D21D017974BBA57798490F668ADD86DA58125D9C4C1202CA1308F7734E43E8F77CEB0AF968A8F8B88849F9B98B26620399470ED057E7931DED82876DCA896A30D0031A8CBD7B9EDFDF16C15C6853F4F8D9EEC09317C84EDAE4B349FE54D23D8EC7DC9BB9F69FD7B7B23383B64F22E25F",
+         "17": 2,
+         "18": [1,2],
+   }
 ```
 
-# Conventions and Definitions
+Conventions and Definitions
+===========================
 
 {::boilerplate bcp14-tagged}
 
+Security Considerations
+=======================
 
-# Security Considerations
+TODO:
 
-TODO: 
-1. Current map structure is in plain text and its not the safest way to handle privacy. Adoption of SD-JWT or equivalent can be considered. 
+1. Current map structure is in plain text and its not the safest way to handle privacy. Adoption of SD-JWT or equivalent can be considered.
 
 2. CWT MUST be signed, create a COSE_Sign/COSE_Sign1 object using the Message as the COSE_Sign/COSE_Sign1 Payload; all steps specified in [RFC8152](https://www.rfc-editor.org/rfc/rfc8152) for creating a COSE_Sign/COSE_Sign1 object MUST be followed.
 
 3. If the CWT is a COSE_Encrypt/COSE_Encrypt0 object,create a COSE_Encrypt/COSE_Encrypt0 using the Message as the plaintext for the COSE_Encrypt/COSE_Encrypt0 object; all steps specified in [RFC8152](https://www.rfc-editor.org/rfc/rfc8152) for creating a COSE_Encrypt/COSE_Encrypt0 object MUST be followed.
 
 4. To verify the claims the CWT is a COSE_Sign/COSE_Sign1, follow the steps specified in Section 4 of [RFC8152](https://www.rfc-editor.org/rfc/rfc8152) ("Signing Objects") for validating a COSE_Sign/COSE_Sign1 object.  Let the Message be the COSE_Sign/COSE_Sign1 payload. Once signature is valid we SHOULD validate the public key against a preconfigured key. In case encrypted Else, if the CWT is a COSE_Encrypt/COSE_Encrypt0 object, follow the steps specified in Section 5 of [RFC8152] ("Encryption Objects") for validating a COSE_Encrypt/COSE_Encrypt0 object.  Let the Message be the resulting plaintext.
-
 
 The security of the CWT relies upon on the protections offered by COSE.  Unless the claims in a CWT are protected, an adversary can modify, add, or remove claims.
 
@@ -154,14 +178,16 @@ The security of the CWT relies upon on the protections offered by COSE.  Unless 
 
    Syntactically, the signing and encryption operations for Nested CWTs may be applied in any order; however, if encryption is necessary, producers normally should sign the message and then encrypt the result (thus encrypting the signature).  This prevents attacks in which the signature is stripped, leaving just an encrypted message, as well as providing privacy for the signer.  Furthermore, signatures over encrypted text are not considered valid in many jurisdictions.
 
-# IANA Considerations
+IANA Considerations
+===================
 
-IANA is requested to register the claim 169 in "CBOR Web Token (CWT) Claims" registry [IANA.CWT.Claims](https://www.iana.org/assignments/cwt/cwt.xhtml). 
-
+IANA is requested to register the claim 169 in "CBOR Web Token (CWT) Claims" registry [IANA.CWT.Claims](https://www.iana.org/assignments/cwt/cwt.xhtml).
 
 --- back
 
-# Acknowledgments
+Acknowledgments
+===============
+
 {:numbered="false"}
 
 TODO acknowledge.
