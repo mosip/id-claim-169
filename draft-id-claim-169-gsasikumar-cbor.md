@@ -1,72 +1,55 @@
 %%%
-title: "Id Claim 169 in QR-Code - CBOR"
+title = "Id Claim 169 in QR-Code - CBOR"
+abbrev = "QR-Code Claim 169"
+category = Standard
+docname = draft-id-claim-169-gsasikumar-cbor.md
+submissiontype = IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+number = 
+date = 
+consensus = true
+v = 3
+area = AREA
+workgroup = COSE
+keyword= ["CBOR", "169", "QR Code", "Identity"]
 
-abbrev: "QR-Code Claim 169"
+venue = 
+group = WG
+type = Working Group
+mail = <WG@example.com>
+arch = <https://example.com/WG>
+github = <https://github.com/mosip/open-spec>
+latest = <https://example.com/LATEST>
 
-category: Standard
+[[author]]
+fullname = Resham Chugani
+organization = MOSIP
+  [author.address]
+  email = resham@mosip.io
 
-docname: draft-id-claim-169-gsasikumar-cbor.md
+[[author]]
+fullname = Mahammed Taheer
+organization = CyberPWN
+  [author.address]
+  email = mohd.taheer@gmail.com
 
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
+[[author]]
+fullname = Rounak Nayak
+organization = Ooru Digital
+  [author.address]
+  email = rounak@ooru.io
 
-number:
+[[author]]
+fullname = Sasikumar G
+organization = MOSIP
+  [author.address]
+  email: sasi@mosip.io
 
-date:
-
-consensus: true
-
-v: 3
-
-area: AREA
-
-workgroup: COSE
-
-keyword:
-
-- CBOR
-- 169
-- QR Code
-- Identity
-
-venue:
-
-  group: WG
-
-  type: Working Group
-
-  mail: <WG@example.com>
-
-  arch: <https://example.com/WG>
-
-  github: <https://github.com/mosip/open-spec>
-
-  latest: <https://example.com/LATEST>
-
-%%%
-
-author:
-
-```
-fullname: Resham Chugani
-organization: MOSIP
-email: resham@mosip.io
-
-fullname: Mahammed Taheer
-organization: CyberPWN
-email: mohd.taheer@gmail.com
-
-fullname: Rounak Nayak
-organization: Ooru Digital
-email: rounak@ooru.io
-
-fullname: Sasikumar G
-organization: MOSIP
-email: sasi@mosip.io
-
+[[author]]
 fullname: Sreenadh S
 organization: MOSIP
- email: sreeavtar@gmail.com
-```
+  [author.address]
+   email = sreeavtar@gmail.com
+%%%
 
 normative:
 
