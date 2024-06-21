@@ -1,15 +1,10 @@
 %%%
 title = "Id Claim 169 in QR-Code - CBOR"
 abbrev = "QR-Code Claim 169"
-category = standard
-docname = draft-id-claim-169-gsasikumar-cbor.md
-submissiontype = IETF  # also: "independent", "editorial", "IAB", or "IRTF"
-number = 
-date = 
-consensus = true
-v = 3
-area = AREA
-workgroup = COSE
+category = "standard"
+docname = "draft-id-claim-169-gsasikumar-cbor"
+submissiontype = "IETF"  # also: "independent", "editorial", "IAB", or "IRTF"
+workgroup = "COSE"
 keyword = ["CBOR", "169", "QR Code", "Identity"]
 
 [seriesInfo]
@@ -19,34 +14,34 @@ stream = "IETF"
 status = "standard"
 
 [[author]]
-fullname = Resham Chugani
-organization = MOSIP
+fullname = "Resham Chugani"
+organization = "MOSIP"
   [author.address]
-  email = resham@mosip.io
+  email = "resham@mosip.io"
 
 [[author]]
-fullname = Mahammed Taheer
-organization = CyberPWN
+fullname = "Mahammed Taheer"
+organization = "CyberPWN"
   [author.address]
-  email = mohd.taheer@gmail.com
+  email = "mohd.taheer@gmail.com"
 
 [[author]]
-fullname = Rounak Nayak
-organization = Ooru Digital
+fullname = "Rounak Nayak"
+organization = "Ooru Digital"
   [author.address]
-  email = rounak@ooru.io
+  email = "rounak@ooru.io"
 
 [[author]]
-fullname = Sasikumar G
-organization = MOSIP
+fullname = "Sasikumar G"
+organization = "MOSIP"
   [author.address]
-  email: sasi@mosip.io
+  email: "sasi@mosip.io"
 
 [[author]]
-fullname: Sreenadh S
-organization: MOSIP
+fullname = "Sreenadh S"
+organization = "MOSIP"
   [author.address]
-   email = sreeavtar@gmail.com
+   email = "sreeavtar@gmail.com"
 %%%
 
 normative:
