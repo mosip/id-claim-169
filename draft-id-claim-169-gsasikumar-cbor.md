@@ -50,8 +50,7 @@ This document specifies a generic data structure and encoding mechanism for stor
 
 {mainmatter}
 
-Introduction
-===============
+# Introduction
 
 Once a person is registered in an identity system, their data serves as the foundation for identification, granting them access to social benefits and government services. The level of assurance in this identification process varies depending on the authentication methods employed. Low assurance is achieved through basic identifiers like ID numbers, demographic data, passwords, or PINs. Conversely, higher assurance levels are attained through one-time passwords (OTP) and biometrics.
 
@@ -65,13 +64,11 @@ To tackle the challenge above, we propose a standard CBOR-based QR Code that inv
 
 Claim 169 represents a JSON Object that includes the below table as ID attributes. You can find an illustration of the ID structure contained within Claim 169, where:
 
-Semantics
-===============
+# Semantics
 
-CBOR Map Structure Overview
----------------------------
+## CBOR Map Structure Overview
 
-**All the fields here are Optional**
+All the fields here are OPTIONAL.
 
 | Attribute | Type  | Attribute Name       | Description                                   |
 |-----------|-------|----------------------|-----------------------------------------------|
@@ -95,8 +92,7 @@ CBOR Map Structure Overview
 | 18        | [int] | Best Quality Fingers | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence              |
 | 19.. 99   | tstr  | Reserved             | Reserved for future attributes                |
 
-CBOR Map Structure Example
---------------------------
+## CBOR Map Structure Example
 
 ```CWT
    {
@@ -127,13 +123,11 @@ CBOR Map Structure Example
    }
 ```
 
-Conventions and Definitions
-===========================
+# Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
-Security Considerations
-=======================
+# Security Considerations
 
 TODO:
 
@@ -153,16 +147,14 @@ The security of the CWT relies upon on the protections offered by COSE.  Unless 
 
    Syntactically, the signing and encryption operations for Nested CWTs may be applied in any order; however, if encryption is necessary, producers normally should sign the message and then encrypt the result (thus encrypting the signature).  This prevents attacks in which the signature is stripped, leaving just an encrypted message, as well as providing privacy for the signer.  Furthermore, signatures over encrypted text are not considered valid in many jurisdictions.
 
-IANA Considerations
-===================
+# IANA Considerations
 
 IANA is requested to register the claim 169 in "CBOR Web Token (CWT) Claims" registry [IANA.CWT.Claims](https://www.iana.org/assignments/cwt/cwt.xhtml).
 
---- back
-
-Acknowledgments
-===============
+# Acknowledgments
 
 {:numbered="false"}
 
 TODO acknowledge.
+
+{backmatter}
