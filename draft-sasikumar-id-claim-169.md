@@ -120,8 +120,8 @@ All the fields here are OPTIONAL.
 | Array index | Type   | Attribute Name     | Description                                                                                                                                                                       |
 |-------------|--------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `0`         | `int`  | Position           | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-2, where 0 represents "Unknown", 1 represents right iris, and 2 represents left iris |
-| `1`         | `bstr` | Biometric template | Image byte string                                                                                                                                                                 |
-| `2`         | `int`  | Image format       | Optional finger image format. Can contain the following values 1 - JPEG, 2 - JPEG2, 3 - AVIF, 4- WEBP                                                                             |
+| `1`         | `bstr` | Iris image         | Image byte string                                                                                                                                                                 |
+| `2`         | `int`  | Iris image format  | Optional iris image format. Can contain the following values 1 - JPEG, 2 - JPEG2, 3 - AVIF, 4- WEBP                                                                               |
 
 ### `IrisTemplate`
 
