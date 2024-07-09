@@ -110,25 +110,27 @@ All the fields here are OPTIONAL.
 
 ### `FingerTemplate`
 
-| Array index | Type   | Attribute Name       | Description                                                                                                                                                                                                                             |
-|-------------|--------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `0`         | `int`  | NIST finger position | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence |
-| `1`         | `bstr` | Biometric template   | Biometric template byte string                                                                                                                                                                                                          |
+| Array index | Type   | Attribute Name             | Description                                                                                                                                                                                                                             |
+|-------------|--------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `0`         | `int`  | NIST finger position       | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence |
+| `1`         | `bstr` | Biometric template         | Biometric template byte string                                                                                                                                                                                                          |
+| `2`         | `int`  | Biometric template format  | Optional finger template format. Can contain the following values 1 - ISO, 2 - NIST                                                                                                                                                     |
 
 ### `IrisImage`
 
-| Array index | Type   | Attribute Name     | Description                                                                                                                                                                       |
-|-------------|--------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `0`         | `int`  | Position           | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-2, where 0 represents "Unknown", 1 represents right iris, and 2 represents left iris |
-| `1`         | `bstr` | Iris image         | Image byte string                                                                                                                                                                 |
-| `2`         | `int`  | Iris image format  | Optional iris image format. Can contain the following values 1 - JPEG, 2 - JPEG2, 3 - AVIF, 4- WEBP                                                                               |
+| Array index | Type   | Attribute Name    | Description                                                                                                                                                                       |
+|-------------|--------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `0`         | `int`  | Position          | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-2, where 0 represents "Unknown", 1 represents right iris, and 2 represents left iris |
+| `1`         | `bstr` | Iris image        | Image byte string                                                                                                                                                                 |
+| `2`         | `int`  | Iris image format | Optional iris image format. Can contain the following values 1 - JPEG, 2 - JPEG2, 3 - AVIF, 4- WEBP                                                                               |
 
 ### `IrisTemplate`
 
-| Array index | Type   | Attribute Name     | Description                                                                                                                                                                       |
-|-------------|--------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `0`         | `int`  | Position           | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-2, where 0 represents "Unknown", 1 represents right iris, and 2 represents left iris |
-| `1`         | `bstr` | Biometric template | Biometric template byte string                                                                                                                                                    |
+| Array index | Type   | Attribute Name             | Description                                                                                                                                                                       |
+|-------------|--------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `0`         | `int`  | Position                   | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-2, where 0 represents "Unknown", 1 represents right iris, and 2 represents left iris |
+| `1`         | `bstr` | Biometric template         | Biometric template byte string                                                                                                                                                    |
+| `2`         | `int`  | Biometric template format  | Optional finger template format. Can contain the following values 1 - ??, 2 - ??                                                                                                  |
 
 ## CBOR Map Structure Example
 
@@ -162,16 +164,16 @@ All the fields here are OPTIONAL.
       [ 6, CB90378C58(...)36F2C546, 5 ]
   ],
   21: [
-      [ 1, C54636F2(...)CB90378C58 ],
-      [ 6, 378C5CB908(...)36F2C546 ]
+      [ 1, C54636F2(...)CB90378C58, 1 ],
+      [ 6, 378C5CB908(...)36F2C546, 1 ]
   ],
   22: [
       [ 1, C546903736F2(...)CB8C73658, 4 ],
       [ 2, 336F36F5C083(...)2B978CC54, 4 ]
   ],
   23: [
-      [ 1, 068ACB(...)5A9B4F3" ],
-      [ 6, 076E7A75(...)EDE38B" ]
+      [ 1, 068ACB(...)5A9B4F3", 1 ],
+      [ 6, 076E7A7(...)EDE38B", 1 ]
   ],
   24: 076E7A759D(...)1D305A9B4F
   25: 0
