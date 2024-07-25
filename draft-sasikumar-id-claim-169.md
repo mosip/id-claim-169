@@ -138,7 +138,7 @@ All the fields here are OPTIONAL.
 
 | `65`      | `[Biometrics]` | Voice Biometrics      | Person's Voice biometrics                                                              |
 
-| `66.. 75` |                | Reserved             | Reserved for future Person's Biometrics Data attributes                                 |
+| `66.. 74` |                | Reserved             | Reserved for future Person's Biometrics Data attributes                                 |
 
 | `75.. 99` |                | Reserved             | Reserved for future attributes                                                         |
 
