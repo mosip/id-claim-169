@@ -90,57 +90,46 @@ All the fields here are OPTIONAL.
 | `16`      | `tstr`         | Binary Image         | Binary image of the person's photograph                                                                                                                                                                                                 |
 | `17`      | `int`          | Binary Image Format  | Binary image format. Can contain the following values `1` - JPEG, `2` - JPEG2, `3` - AVIF, `4` - WEBP                                                                                                                                   |
 | `18`      | `[int]`        | Best Quality Fingers | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence |
-| `19.. 49` |                | Reserved             | Reserved for future attributes                                                          |
-
-| `50.. 74` |                | Reserved             | Reserved for Person's Biometrics Data attributes                                        |
-
-| `50`      | `[Biometrics]` | Right Thumb 
-                               Biometrics            | Person's Right Thumb biometrics                                                         |
-
-| `51`      | `[Biometrics]` | Right Pointer Finger 
-                               Biometrics            | Person's Right Pointer Finger biometrics                                                |
-
-| `52`      | `[Biometrics]` | Right Middle Finger 
-                               Biometrics            | Person's Right Middle Finger biometrics                                                 |
-
-| `53`      | `[Biometrics]` | Right Ring Finger 
-                               Biometrics            | Person's Right Ring Finger biometrics                                                   |
-
-| `54`      | `[Biometrics]` | Right Little Finger 
-                               Biometrics            | Person's Right Little Finger biometrics                                                |
-
-| `55`      | `[Biometrics]` | Left Thumb 
-                               Biometrics            | Person's Left Thumb biometrics                                                         |
-
-| `56`      | `[Biometrics]` | Left Pointer Finger 
-                               Biometrics            | Person's Right Pointer Finger biometrics                                               |
-
-| `57`      | `[Biometrics]` | Left Middle Finger 
-                               Biometrics            | Person's Right Middle Finger biometrics                                                 |
-
-| `58`      | `[Biometrics]` | Left Ring Finger 
-                               Biometrics            | Person's Right Ring Finger biometrics                                                   |
-
-| `59`      | `[Biometrics]` | Left Little Finger 
-                               Biometrics            | Person's Right Little Finger biometrics                                                 |
-
-| `60`      | `[Biometrics]` | Right Iris 
-                               Biometrics            | Person's Right Iris biometrics                                                         |
-
-| `61`      | `[Biometrics]` | Left Iris 
-                               Biometrics            | Person's Left Iris biometrics                                                         |
-
-| `62`      | `[Biometrics]` | Face                 | Person's Face biometrics                                                              |
-
-| `63`      | `[Biometrics]` | Right Palm Print     | Person's Right Palm Print biometrics                                                   |
-
-| `64`      | `[Biometrics]` | Left Palm Print      | Person's Left Palm Print biometrics                                                    |
-
-| `65`      | `[Biometrics]` | Voice Biometrics      | Person's Voice biometrics                                                              |
-
-| `66.. 74` |                | Reserved             | Reserved for future Person's Biometrics Data attributes                                 |
-
-| `75.. 99` |                | Reserved             | Reserved for future attributes                                                         |
+| `19.. 49` |                | Reserved              | Reserved for future attributes                                                          
+|
+| `50.. 74` |                | Reserved              | Reserved for Person's Biometrics Data attributes                                        
+|
+| `50`      | `[Biometrics]` | Right Thumb           | Person's Right Thumb biometrics                                                       
+|
+| `51`      | `[Biometrics]` | Right Pointer Finger  | Person's Right Pointer Finger biometrics                                                
+|
+| `52`      | `[Biometrics]` | Right Middle Finger   | Person's Right Middle Finger biometrics                                                 
+|
+| `53`      | `[Biometrics]` | Right Ring Finger     | Person's Right Ring Finger biometrics                                                   
+|
+| `54`      | `[Biometrics]` | Right Little Finger   | Person's Right Little Finger biometrics                                                
+|
+| `55`      | `[Biometrics]` | Left Thumb            | Person's Left Thumb biometrics                                                         
+|
+| `56`      | `[Biometrics]` | Left Pointer Finger   | Person's Right Pointer Finger biometrics                                               
+|
+| `57`      | `[Biometrics]` | Left Middle Finger    | Person's Right Middle Finger biometrics                                                 
+|
+| `58`      | `[Biometrics]` | Left Ring Finger      | Person's Right Ring Finger biometrics                                                   
+|
+| `59`      | `[Biometrics]` | Left Little Finger    | Person's Right Little Finger biometrics                                                 
+|
+| `60`      | `[Biometrics]` | Right Iris            | Person's Right Iris biometrics                                                         
+|
+| `61`      | `[Biometrics]` | Left Iris             | Person's Left Iris biometrics                                                         
+|
+| `62`      | `[Biometrics]` | Face                  | Person's Face biometrics                                                              
+|
+| `63`      | `[Biometrics]` | Right Palm Print      | Person's Right Palm Print biometrics                                                   
+|
+| `64`      | `[Biometrics]` | Left Palm Print       | Person's Left Palm Print biometrics                                                    
+|
+| `65`      | `[Biometrics]` | Voice                 | Person's Voice biometrics                                                              
+|
+| `66.. 74` |                | Reserved              | Reserved for future Person's Biometrics Data attributes                                 
+|
+| `75.. 99` |                | Reserved              | Reserved for future attributes                                                         
+|
 
 ### `Biometrics`
 
@@ -173,6 +162,7 @@ All the fields here are OPTIONAL.
 | `4`       | WEBP        |
 | `5`       | TIFF        |
 | `6`       | WSQ         |
+| `100..200` | Vendor specific                  |
 
 ###### Template
 
@@ -213,80 +203,68 @@ All the fields here are OPTIONAL.
   13: US # Nationality
   14: 2 # Marital status: Married
   15: Jhon Honai # Guardian
-  16: 03CBABDF83D068ACB5DE65B3CDF25E0036F2C546CB90378C587A076E7A759DFD27CA7872B6CDFF339AEAACA61A6023FD1D305A9B4F33CAA248CEDE38B67D7C915C59A51BB4E77D10077A625258873183F82D65F4C482503A5A01F41DEE612C3542E5370987815E592B8EA2020FD3BDDC747897DB10237EAD179E55B441BC6D8BAD07CE535129CF8D559445CC3A29D746FBF1174DE2E7C0F3439BE7DBEA4520CF88825AAE6B1F291A746AB8177C65B2A459DD19BD32C0C3070004B85C1D63034707CC690AB0BA023350C8337FC6894061EB8A714A8F22FE2365E7A904C72DEC9746ABEA1A3296ECACD1A40450794EDCD2B34844E7C19EB7FB1A4AF3B05C3B374BD2941603F72D3F9A62EAB9A2FDAEEEEC8EE6E350F8A1863C0A0AB1B4058D154559A1CD5133EFCF682ABC339960819C9427889D60380B635A7D21D017974BBA57798490F668ADD86DA58125D9C4C1202CA1308F7734E43E8F77CEB0AF968A8F8B88849F9B98B26620399470ED057E7931DED82876DCA896A30D0031A8CBD7B9EDFDF16C15C6853F4F8D9EEC09317C84EDAE4B349FE54D23D8EC7DC9BB9F69FD7B7B23383B64F22E25F # Binary image
+  16: 03CBABDF83D068ACB5DE65B3CDF25E0036F2C54(...)E54D23D8EC7DC9BB9F69FD7B7B23383B64F22E25F # Binary image
   17: 2 # Binary image format: JPEG
   18: [1, 2] # Best quality fingers
   50: # Right Thumb Biometrics
-
     # Right Thumb image
     - 0: 03CBA(...)0378C58 # Data
       1: 0 # Image
       2: 1 # JPEG
-
     # Right Thumb template
     - 0: 03CBA(...)0378C58 # Data
       1: 1 # Template
       2: 100 # Vendor specific
       3: VendorA # Biometric data issuer
-
   51: # Right Pointer Finger Biometrics
-
-    # Right Pointer Finger images
+    # Right Pointer Finger image
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
       3: VendorA # Biometric data issuer
-
+    # Right Pointer Finger template
+    - 0: 36F2C546(...)CB90378C58 # Data
+      1: 1 # Template
+      2: 1 # Fingerprint Template ISO 19794-2
+      3: VendorA # Biometric data issuer
+  58: # Left Ring Finger Biometrics
+    # Left Ring Finger image
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
-      3: VendorA # Biometric data issuer
-   
-   58: # Left Ring Finger Biometrics   
-
-    # Left Ring Finger templates
+      3: VendorA # Biometric data issuer   
+    # Left Ring Finger template
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Template
       2: 1 # Fingerprint Template ISO 19794-2
       3: VendorA # Biometric data issuer
-      
-    - 0: 36F2C546(...)CB90378C58 # Data
-      1: 1 # Template
-      2: 1 # Fingerprint Template ISO 19794-2
-      3: VendorB # Biometric data issuer
-    
    60: # Right Iris Biometrics
-
-      # Right Iris images
+    # Right Iris image
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
       3: VendorX # Biometric data issuer
-     
+    # Right Iris image 
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
       3: VendorY # Biometric data issuer
-    
-   60: # Left Iris Biometrics
-
-    # Left Iris templates
+   61: # Left Iris Biometrics
+    # Left Iris template
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Template
       2: 100 # Vendor specific
       3: VendorX # Biometric data issuer
-   
+    # Left Iris image
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Template
       2: 100 # Vendor specific
       3: VendorY # Biometric data issuer
-
    65: # Voice Biometrics   
-
     # Voice sound
     - 0: 03CBA(...)0378C58 # Data
+      1: 2 # Sound
       2: 1 # MP3
-  
     # Voice template
     - 0: 03CBA(...)0378C58 # Data
       1: 1 # Template
