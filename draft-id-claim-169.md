@@ -2,14 +2,14 @@
 title = "Id Claim 169 in QR-Code - CBOR"
 abbrev = "QR-Code Claim 169"
 category = "standard"
-docname = "draft-sasikumar-id-claim-169"
+docname = "draft-claim-169"
 submissiontype = "IETF"  # also: "independent", "editorial", "IAB", or "IRTF"
 workgroup = "COSE"
 keyword = ["CBOR", "169", "QR Code", "Identity"]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-sasikumar-id-claim-169-latest"
+value = "draft-claim-169-latest"
 stream = "IETF"
 status = "standard"
 
@@ -92,42 +92,24 @@ All the fields here are OPTIONAL.
 | `18`      | `[int]`        | Best Quality Fingers | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence |
 | `19.. 49` |                | Reserved              | Reserved for future attributes                                                          |
 | `50.. 74` |                | Reserved              | Reserved for Person's Biometrics Data attributes                                        |
-| `50`      | `[Biometrics]` | Right Thumb           | Person's Right Thumb biometrics                                                       
-|
-| `51`      | `[Biometrics]` | Right Pointer Finger  | Person's Right Pointer Finger biometrics                                                
-|
-| `52`      | `[Biometrics]` | Right Middle Finger   | Person's Right Middle Finger biometrics                                                 
-|
-| `53`      | `[Biometrics]` | Right Ring Finger     | Person's Right Ring Finger biometrics                                                   
-|
-| `54`      | `[Biometrics]` | Right Little Finger   | Person's Right Little Finger biometrics                                                
-|
-| `55`      | `[Biometrics]` | Left Thumb            | Person's Left Thumb biometrics                                                         
-|
-| `56`      | `[Biometrics]` | Left Pointer Finger   | Person's Right Pointer Finger biometrics                                               
-|
-| `57`      | `[Biometrics]` | Left Middle Finger    | Person's Right Middle Finger biometrics                                                 
-|
-| `58`      | `[Biometrics]` | Left Ring Finger      | Person's Right Ring Finger biometrics                                                   
-|
-| `59`      | `[Biometrics]` | Left Little Finger    | Person's Right Little Finger biometrics                                                 
-|
-| `60`      | `[Biometrics]` | Right Iris            | Person's Right Iris biometrics                                                         
-|
-| `61`      | `[Biometrics]` | Left Iris             | Person's Left Iris biometrics                                                         
-|
-| `62`      | `[Biometrics]` | Face                  | Person's Face biometrics                                                              
-|
-| `63`      | `[Biometrics]` | Right Palm Print      | Person's Right Palm Print biometrics                                                   
-|
-| `64`      | `[Biometrics]` | Left Palm Print       | Person's Left Palm Print biometrics                                                    
-|
-| `65`      | `[Biometrics]` | Voice                 | Person's Voice biometrics                                                              
-|
-| `66.. 74` |                | Reserved              | Reserved for future Person's Biometrics Data attributes                                 
-|
-| `75.. 99` |                | Reserved              | Reserved for future attributes                                                         
-|
+| `50`      | `[Biometrics]` | Right Thumb           | Person's Right Thumb biometrics                                                         |
+| `51`      | `[Biometrics]` | Right Pointer Finger  | Person's Right Pointer Finger biometrics                                                |
+| `52`      | `[Biometrics]` | Right Middle Finger   | Person's Right Middle Finger biometrics                                                 |
+| `53`      | `[Biometrics]` | Right Ring Finger     | Person's Right Ring Finger biometrics                                                   |
+| `54`      | `[Biometrics]` | Right Little Finger   | Person's Right Little Finger biometrics                                                |
+| `55`      | `[Biometrics]` | Left Thumb            | Person's Left Thumb biometrics                                                         |
+| `56`      | `[Biometrics]` | Left Pointer Finger   | Person's Right Pointer Finger biometrics                                               |
+| `57`      | `[Biometrics]` | Left Middle Finger    | Person's Right Middle Finger biometrics                                                 |
+| `58`      | `[Biometrics]` | Left Ring Finger      | Person's Right Ring Finger biometrics                                                   |
+| `59`      | `[Biometrics]` | Left Little Finger    | Person's Right Little Finger biometrics                                                 |
+| `60`      | `[Biometrics]` | Right Iris            | Person's Right Iris biometrics                                                         |
+| `61`      | `[Biometrics]` | Left Iris             | Person's Left Iris biometrics                                                         |
+| `62`      | `[Biometrics]` | Face                  | Person's Face biometrics                                                              |
+| `63`      | `[Biometrics]` | Right Palm Print      | Person's Right Palm Print biometrics                                                   |
+| `64`      | `[Biometrics]` | Left Palm Print       | Person's Left Palm Print biometrics                                                    |
+| `65`      | `[Biometrics]` | Voice                 | Person's Voice biometrics                                                              |
+| `66.. 74` |                | Reserved              | Reserved for future Person's Biometrics Data attributes                                 |
+| `75.. 99` |                | Reserved              | Reserved for future attributes                                                         |
 
 ### `Biometrics`
 
