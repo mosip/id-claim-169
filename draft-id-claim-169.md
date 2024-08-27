@@ -90,10 +90,8 @@ All the fields here are OPTIONAL.
 | `16`      | `tstr`         | Binary Image         | Binary image of the person's photograph                                                                                                                                                                                                 |
 | `17`      | `int`          | Binary Image Format  | Binary image format. Can contain the following values `1` - JPEG, `2` - JPEG2, `3` - AVIF, `4` - WEBP                                                                                                                                   |
 | `18`      | `[int]`        | Best Quality Fingers | An unsigned 8-bit number encoding the hand position of the finger. It must be in the range 0-10, where 0 represents "Unknown", 1-5 represents right thumb to little finger, and 6-10 represents left thumb to little finger in sequence |
-| `19.. 49` |                | Reserved              | Reserved for future attributes                                                          
-|
-| `50.. 74` |                | Reserved              | Reserved for Person's Biometrics Data attributes                                        
-|
+| `19.. 49` |                | Reserved              | Reserved for future attributes                                                          |
+| `50.. 74` |                | Reserved              | Reserved for Person's Biometrics Data attributes                                        |
 | `50`      | `[Biometrics]` | Right Thumb           | Person's Right Thumb biometrics                                                       
 |
 | `51`      | `[Biometrics]` | Right Pointer Finger  | Person's Right Pointer Finger biometrics                                                
