@@ -2,14 +2,14 @@
 title = "Id Claim 169 in QR-Code - CBOR"
 abbrev = "QR-Code Claim 169"
 category = "standard"
-docname = "draft-sasikumar-id-claim-169"
+docname = "draft-id-claim-169"
 submissiontype = "IETF"  # also: "independent", "editorial", "IAB", or "IRTF"
 workgroup = "COSE"
 keyword = ["CBOR", "169", "QR Code", "Identity"]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-sasikumar-id-claim-169-latest"
+value = "draft-id-claim-169-latest"
 stream = "IETF"
 status = "standard"
 
