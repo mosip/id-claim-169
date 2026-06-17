@@ -98,7 +98,7 @@
         <a class="btn btn--latest label-hide" href="https://docs.mosip.io/1.2.0/readme/standards-and-specifications/mosip-standards/169-qr-code-specification" target="_blank" rel="noopener noreferrer">Latest Spec ↗</a>
 
         </div><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-          <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg class="burger" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><line class="burger__top" x1="3" y1="6" x2="21" y2="6"/><line class="burger__mid" x1="3" y1="12" x2="21" y2="12"/><line class="burger__bot" x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
     </div>
@@ -144,21 +144,22 @@
             </div>
 
             <dl class="hero__stats">
-              <div class="stat-card"><dd class="stat-card__num">75+</dd><dt class="stat-card__label">Identity Attributes</dt></div>
-              <div class="stat-card"><dd class="stat-card__num">8+</dd><dt class="stat-card__label">Contributing Orgs</dt></div>
-              <div class="stat-card"><dd class="stat-card__num">3+</dd><dt class="stat-card__label">POCs / Adoptions</dt></div>
+              <div class="stat-card"><dd class="stat-card__num"><span class="stat-num" data-to="75">75</span><span class="stat-plus">+</span></dd><dt class="stat-card__label">Identity Attributes</dt></div>
+              <div class="stat-card"><dd class="stat-card__num"><span class="stat-num" data-to="8">8</span><span class="stat-plus">+</span></dd><dt class="stat-card__label">Contributing Orgs</dt></div>
+              <div class="stat-card"><dd class="stat-card__num"><span class="stat-num" data-to="3">3</span><span class="stat-plus">+</span></dd><dt class="stat-card__label">POCs / Adoptions</dt></div>
             </dl>
           </div>
 
           <div class="hero__visual">
             <p class="hero__visual-label">Identity Data</p>
-            <div class="qr-panel" role="img" aria-label="Illustration of a Claim 169 QR code with a 169 badge at its center">
+            <div class="qr-panel" id="qr-panel" role="img" aria-label="Illustration of a Claim 169 QR code with a 169 badge at its center">
               <span class="qr-corner qr-corner--tl" aria-hidden="true"></span>
               <span class="qr-corner qr-corner--tr" aria-hidden="true"></span>
               <span class="qr-corner qr-corner--bl" aria-hidden="true"></span>
               <span class="qr-corner qr-corner--br" aria-hidden="true"></span>
               <div class="qr-matrix" id="qr-matrix" aria-hidden="true"></div>
-              <span class="qr-badge" aria-hidden="true">169</span>
+              <span class="qr-scan" aria-hidden="true"></span>
+              <span class="qr-badge" aria-hidden="true"><span class="qr-badge__ring"></span>169</span>
             </div>
             <ul class="qr-legend">
               <li><span class="ldot" style="background:var(--accent-bright)" aria-hidden="true"></span> CBOR Encoded</li>
@@ -328,7 +329,7 @@
           <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 14V4M8.5 7.5 12 4l3.5 3.5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></span><span class="process-step__num">03</span></div><h3>Present QR Code</h3><p>User presents QR at verification point</p></li>
           <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg></span><span class="process-step__num">04</span></div><h3>Scan &amp; Decode</h3><p>Verifier scans and extracts identity data</p></li>
           <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="process-step__num">05</span></div><h3>Verify Identity</h3><p>Signature validated + face match confirms presence</p></li>
-          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5M15 12H3"/></svg></span><span class="process-step__num">06</span></div><h3>Access Service</h3><p>Identity verified → service delivered</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge" style="color: rgb(1, 77, 175); background-color: rgba(1, 77, 175, 0.14)"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" style="stroke: rgb(1, 77, 175)"/><path d="m10 17 5-5-5-5M15 12H3" style="stroke: rgb(1, 77, 175)"/></svg></span><span class="process-step__num">06</span></div><h3>Access Service</h3><p>Identity verified → service delivered</p></li>
         </ol>
 
         <div class="process-foot">
@@ -445,7 +446,7 @@
           <p>Potential use cases enabling trusted offline identity verification across humanitarian, government, and development contexts.</p>
         </div>
 
-        <div class="carousel">
+        <div class="carousel carousel--stacked">
           <button class="carousel__btn carousel__btn--prev" id="where-prev" aria-label="Previous use cases">
             <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
           </button>

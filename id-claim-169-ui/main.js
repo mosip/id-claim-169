@@ -130,6 +130,109 @@
     });
   }
 
+  /* --------------------------------------------- NAV SCROLLSPY (home) -- */
+  /* Highlights the nav link for the section currently occupying the upper
+     viewport. IntersectionObserver-based (no scroll-offset math). Single
+     source of truth (setActive) feeds BOTH the desktop bar and the mobile
+     drawer — they read the same <a> elements, so they can't disagree.
+     Only acts where nav links are in-page anchors (home page); on subpages
+     the hrefs are "index.html#…" so this no-ops and the existing
+     aria-current="page" styling is left untouched. */
+  (function () {
+    var navEl = document.getElementById("primary-nav");
+    if (!navEl || !("IntersectionObserver" in window)) return;
+
+    // Main nav list only (skip the drawer utility actions). Sections kept in
+    // document order; verify each link's target id exists.
+    var links = [].slice.call(navEl.querySelectorAll('ul a[href^="#"]'));
+    var sections = [];
+    links.forEach(function (a) {
+      var id = a.getAttribute("href").slice(1);
+      var el = id && document.getElementById(id);
+      if (el && !sections.some(function (s) { return s.id === id; })) sections.push({ id: id, el: el });
+    });
+    if (!sections.length) return;
+
+    // ---- single source of truth -------------------------------------
+    var activeId = null;
+    var lockUntil = 0; // clicks set this so the observer can't override mid-scroll
+    var setActive = function (id) {
+      activeId = id;
+      links.forEach(function (a) {
+        var on = a.getAttribute("href").slice(1) === id;
+        a.classList.toggle("is-active", !!on);
+        if (on) a.setAttribute("aria-current", "true");
+        else if (a.getAttribute("aria-current") === "true") a.removeAttribute("aria-current");
+      });
+    };
+
+    var headerEl = document.querySelector(".site-header");
+    var headerH = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
+
+    var bottomReached = false;
+    // Active = topmost section overlapping the band just below the sticky
+    // header (down to ~38% of the viewport). Uses live getBoundingClientRect
+    // (viewport-relative) so it's correct regardless of which element scrolls.
+    var recompute = function () {
+      if (Date.now() < lockUntil) return;
+      if (bottomReached) { setActive(sections[sections.length - 1].id); return; }
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var bandTop = headerH + 4;
+      var bandBottom = vh * 0.38;
+      for (var i = 0; i < sections.length; i++) {
+        var r = sections[i].el.getBoundingClientRect();
+        if (r.top <= bandBottom && r.bottom > bandTop) { setActive(sections[i].id); return; }
+      }
+      setActive(null); // hero / between sections → nothing highlighted
+    };
+
+    // IntersectionObserver fires recompute as sections cross the band edges;
+    // scroll/resize keep it continuous in every environment.
+    var io = new IntersectionObserver(recompute,
+      { rootMargin: "-" + (headerH + 4) + "px 0px -62% 0px", threshold: [0, 1] });
+    sections.forEach(function (s) { io.observe(s.el); });
+
+    var ticking = false;
+    var onScrollResize = function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () { recompute(); ticking = false; });
+    };
+    window.addEventListener("scroll", onScrollResize, { passive: true });
+    document.addEventListener("scroll", onScrollResize, { passive: true, capture: true });
+    window.addEventListener("resize", onScrollResize);
+
+    // Bottom fallback: a sentinel at the end of the page. When it enters view
+    // (user at/near the bottom), the last section wins even if it never hit
+    // the band — covers short final sections under a tall footer.
+    var sentinel = document.createElement("div");
+    sentinel.setAttribute("aria-hidden", "true");
+    sentinel.style.cssText = "position:absolute;left:0;bottom:0;width:1px;height:1px;pointer-events:none;";
+    document.body.appendChild(sentinel);
+    new IntersectionObserver(function (entries) {
+      bottomReached = entries[0].isIntersecting;
+      recompute();
+    }, { rootMargin: "0px 0px 120px 0px", threshold: 0 }).observe(sentinel);
+
+    // Click: set active immediately + lock so smooth-scroll isn't overridden.
+    navEl.addEventListener("click", function (e) {
+      var a = e.target.closest('ul a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute("href").slice(1);
+      if (!document.getElementById(id)) return;
+      setActive(id);
+      lockUntil = Date.now() + 900;
+    });
+
+    // Initial load with a hash (e.g. /#use-cases) → highlight that item.
+    var hash = (location.hash || "").slice(1);
+    if (hash && sections.some(function (s) { return s.id === hash; })) {
+      setActive(hash);
+      lockUntil = Date.now() + 900;
+    }
+    recompute();
+  })();
+
   /* ------------------------------------------- HEADER SCROLL SHADOW ---- */
   /* IntersectionObserver on a top sentinel — robust regardless of scroller. */
   var header = document.querySelector(".site-header");
@@ -168,11 +271,122 @@
       // clear the 3x3 center for the badge
       var row = Math.floor(i / 7), col = i % 7;
       var center = row >= 2 && row <= 4 && col >= 2 && col <= 4;
-      if (pattern[i] && !center) cell.className = "on";
+      if (pattern[i] && !center) {
+        cell.className = "on";
+        // Ripple delay: tied to the row so accent cells light up just behind
+        // the scan beam. Sweep starts ~0.5s and runs ~1.15s over 7 rows.
+        cell.style.animationDelay = (0.5 + (row / 7) * 1.0).toFixed(2) + "s";
+      }
       frag.appendChild(cell);
     }
     matrix.appendChild(frag);
   }
+
+  /* ------------------------------------------- QR SCANNER SEQUENCE ----- */
+  /* Orchestrates the "scan & confirm" load sequence on the hero asset, then
+     hands off to the CSS ambient loop. Re-triggers a quick sweep on hover/tap.
+     Reduced-motion: skip straight to the composed/ambient-free final state. */
+  (function () {
+    var panel = document.getElementById("qr-panel");
+    if (!panel) return;
+
+    if (reduceMotion) { panel.classList.add("is-static"); return; }
+
+    var SEQ_MS = 2350; // total load sequence before ambient loop takes over
+    var run = function () {
+      panel.classList.remove("is-done", "is-replay");
+      // force reflow so re-adding the class restarts the animations
+      void panel.offsetWidth;
+      panel.classList.add("is-scanning");
+      window.setTimeout(function () {
+        panel.classList.remove("is-scanning");
+        panel.classList.add("is-done");
+      }, SEQ_MS);
+    };
+
+    // Fire on load when the hero is in view (it's at the top → effectively load).
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { run(); io.disconnect(); } });
+      }, { threshold: 0.3 });
+      io.observe(panel);
+    } else { run(); }
+
+    // Hover / tap → quick re-scan + badge pulse (ignored mid-sequence).
+    var replay = function () {
+      if (panel.classList.contains("is-scanning") || panel.classList.contains("is-replay")) return;
+      panel.classList.remove("is-done");
+      void panel.offsetWidth;
+      panel.classList.add("is-replay");
+      window.setTimeout(function () {
+        panel.classList.remove("is-replay");
+        panel.classList.add("is-done");
+      }, 1750);
+    };
+    panel.addEventListener("mouseenter", replay);
+    panel.addEventListener("click", replay);
+  })();
+
+  /* ------------------------------------------- HERO STAT COUNT-UP ----- */
+  /* Counts each hero stat up from 0 → target with an ease-out curve, staggered,
+     then a scale "pop" as it lands. Fires once when the hero enters view (it's
+     at the top, so on load). Reduced-motion: skip straight to final values. */
+  (function () {
+    var statsWrap = document.querySelector(".hero__stats");
+    if (!statsWrap) return;
+    var nums = [].slice.call(statsWrap.querySelectorAll(".stat-num"));
+    if (!nums.length) return;
+
+    // Reserve digit width up front so nothing reflows while counting.
+    nums.forEach(function (el) {
+      var to = parseInt(el.getAttribute("data-to"), 10) || 0;
+      el.style.minWidth = String(to).length + "ch";
+    });
+
+    if (reduceMotion) {
+      nums.forEach(function (el) { el.textContent = el.getAttribute("data-to"); });
+      return; // labels already visible (marker not added)
+    }
+
+    var DUR = 1800, STAGGER = 150;
+    var started = false;
+    var run = function () {
+      if (started) return;
+      started = true;
+      statsWrap.classList.add("hero__stats--anim"); // arms label entrance
+      nums.forEach(function (el) { el.textContent = "0"; });
+      nums.forEach(function (el, i) {
+        var to = parseInt(el.getAttribute("data-to"), 10) || 0;
+        var card = el.closest(".stat-card");
+        var label = card ? card.querySelector(".stat-card__label") : null;
+        window.setTimeout(function () {
+          var t0 = null;
+          var tick = function (ts) {
+            if (t0 === null) t0 = ts;
+            var p = Math.min((ts - t0) / DUR, 1);
+            var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+            el.textContent = String(Math.round(to * eased));
+            if (p < 1) { requestAnimationFrame(tick); }
+            else {
+              el.textContent = String(to);
+              el.classList.add("is-pop");
+              if (label) label.classList.add("is-in");
+            }
+          };
+          requestAnimationFrame(tick);
+        }, i * STAGGER);
+      });
+    };
+
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { run(); io.disconnect(); } });
+      }, { threshold: 0.35 });
+      io.observe(statsWrap);
+    } else {
+      run();
+    }
+  })();
 
   /* --------------------------------------------------- THEME TOGGLE ---- */
   var THEME_KEY = "claim169-theme";
