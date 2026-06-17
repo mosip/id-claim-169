@@ -82,7 +82,7 @@
         </a>
         <a class="btn btn--latest label-hide" href="https://docs.mosip.io/1.2.0/readme/standards-and-specifications/mosip-standards/169-qr-code-specification" target="_blank" rel="noopener noreferrer">Latest Spec ↗</a>
         </div><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-          <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg class="burger" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><line class="burger__top" x1="3" y1="6" x2="21" y2="6"/><line class="burger__mid" x1="3" y1="12" x2="21" y2="12"/><line class="burger__bot" x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
     </div>
@@ -124,23 +124,16 @@
             <h3>Playground 1 — Issuer Playground</h3>
             <p class="dev-card__desc">Interactively build and issue a Claim 169 QR code. Fill in identity fields, choose signing keys, and download a verifiable QR for testing your verifier integration.</p>
             <div class="dev-tags"><span class="dev-tag">Issuance</span><span class="dev-tag">Interactive</span><span class="dev-tag">No sign-up</span></div>
-            <a class="dev-cta" href="https://sandbox.mosip.net/" target="_blank" rel="noopener noreferrer" aria-label="Open Issuer Playground (opens in a new tab)">Open Playground
+            <a class="dev-cta" href="https://idpass.github.io/claim-169/" target="_blank" rel="noopener noreferrer" aria-label="Open Issuer Playground (opens in a new tab)">Open Playground
               <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
           </article>
 
-          <!-- Verifier -->
-          <article class="dev-card" style="--c:#fa8005">
-            <div class="dev-card__top">
-              <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="m8.5 12 2.5 2.5L16 9.5"/></svg></span>
-              <div class="dev-card__badges"><span class="dev-badge dev-badge--cat">Playground</span><span class="dev-badge dev-badge--live">Live</span></div>
-            </div>
-            <h3>Playground 2 — Verifier Playground</h3>
-            <p class="dev-card__desc">Upload or scan any Claim 169 QR code and inspect the decoded payload, validate the COSE signature, and review CWT claims in a step-by-step breakdown.</p>
-            <div class="dev-tags"><span class="dev-tag">Verification</span><span class="dev-tag">Signature check</span><span class="dev-tag">Payload inspector</span></div>
-            <a class="dev-cta" href="https://sandbox.mosip.net/" target="_blank" rel="noopener noreferrer" aria-label="Open Verifier Playground (opens in a new tab)">Open Playground
-              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </a>
+          <!-- More coming soon -->
+          <article class="dev-card dev-card--comingsoon" aria-label="More playgrounds coming soon">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <h3>More playgrounds coming soon!</h3>
+            <p class="dev-card__desc">Stay tuned.</p>
           </article>
         </div>
       </div>
