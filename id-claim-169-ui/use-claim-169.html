@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use Claim 169 — Developer Resources</title>
+  <link rel="icon" type="image/png" href="./assets/mosip-logo.png">
+  <meta name="description" content="Everything you need to issue and verify Claim 169 credentials — SDKs for every platform, drop-in UI components, and live playgrounds to test your integration." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("claim169-theme");
+        var sys = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", saved || sys);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== HEADER (identical to index.html) ===== -->
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="index.html" aria-label="Claim 169 — home">
+        <span class="brand__name">CLAIM <b>169</b></span>
+        <span class="brand__sub">QR Code Specification</span>
+      </a>
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#specification">Specification</a></li>
+          <li><a href="index.html#use-cases">Use Cases</a></li>
+          <li><a href="index.html#use-169" aria-current="page">Use Claim 169</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#contribute">Contribute</a></li>
+          <li><a href="faqs.html">FAQs</a></li>
+        </ul>
+        <div class="nav-drawer-actions">
+          <a href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View project on GitHub (opens in a new tab)">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+            View on GitHub
+          </a>
+          <a href="index.html#contribute">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+            Join the Working Group
+          </a>
+          <a href="index.html#contact">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Contact Us
+          </a>
+        </div>
+      </nav>
+      <div class="header-actions"><div class="action-group">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-describedby="tt-theme">
+          <svg class="i-sun" viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"/></svg>
+          <span class="tt" role="tooltip" id="tt-theme">Dark mode</span>
+        </button>
+        <a class="icon-btn" href="index.html#contributors" aria-label="Contributors" aria-describedby="tt-contributors">
+          <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+          <span class="tt" role="tooltip" id="tt-contributors">Contributors</span>
+        </a>
+        <a class="icon-btn" href="index.html#point-of-contact" aria-label="Point of Contact" aria-describedby="tt-contact">
+          <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span class="tt" role="tooltip" id="tt-contact">Point of Contact</span>
+        </a>
+        </div><span class="header-divider" aria-hidden="true"></span><div class="action-group">
+        <a class="btn btn--outline" href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View project on GitHub (opens in a new tab)">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+          <span class="btn-github-text">GitHub</span>
+        </a>
+        <a class="btn btn--latest label-hide" href="https://docs.mosip.io/1.2.0/readme/standards-and-specifications/mosip-standards/169-qr-code-specification" target="_blank" rel="noopener noreferrer">Latest Spec ↗</a>
+        </div><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ================================================================
+         HERO
+    ================================================================= -->
+    <section class="section versions-head" aria-labelledby="dev-title">
+      <div class="container container--wide">
+        <a class="btn btn--outline back-btn" href="index.html#use-169">
+          <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          Back
+        </a>
+        <span class="eyebrow versions-eyebrow">Developer Resources</span>
+        <h1 id="dev-title" class="versions-title">Use Claim 169</h1>
+        <p class="versions-lede">Everything you need to issue and verify Claim 169 credentials — SDKs for every platform, drop-in UI components, and live playgrounds to test your integration.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 1 — Playgrounds (live tools, moved to top)
+    ================================================================= -->
+    <section class="section dev-section" id="playgrounds" aria-labelledby="playgrounds-title">
+      <div class="container container--wide">
+        <div class="dev-head">
+          <h2 id="playgrounds-title">Playgrounds</h2>
+          <p>Interactive playgrounds to test issuance and verification without writing any code.</p>
+        </div>
+
+        <div class="dev-grid">
+          <!-- Issuer -->
+          <article class="dev-card" style="--c:#0a8754">
+            <div class="dev-card__top">
+              <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></span>
+              <div class="dev-card__badges"><span class="dev-badge dev-badge--cat">Playground</span><span class="dev-badge dev-badge--live">Live</span></div>
+            </div>
+            <h3>Playground 1 — Issuer Playground</h3>
+            <p class="dev-card__desc">Interactively build and issue a Claim 169 QR code. Fill in identity fields, choose signing keys, and download a verifiable QR for testing your verifier integration.</p>
+            <div class="dev-tags"><span class="dev-tag">Issuance</span><span class="dev-tag">Interactive</span><span class="dev-tag">No sign-up</span></div>
+            <a class="dev-cta" href="https://sandbox.mosip.net/" target="_blank" rel="noopener noreferrer" aria-label="Open Issuer Playground (opens in a new tab)">Open Playground
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </article>
+
+          <!-- Verifier -->
+          <article class="dev-card" style="--c:#fa8005">
+            <div class="dev-card__top">
+              <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="m8.5 12 2.5 2.5L16 9.5"/></svg></span>
+              <div class="dev-card__badges"><span class="dev-badge dev-badge--cat">Playground</span><span class="dev-badge dev-badge--live">Live</span></div>
+            </div>
+            <h3>Playground 2 — Verifier Playground</h3>
+            <p class="dev-card__desc">Upload or scan any Claim 169 QR code and inspect the decoded payload, validate the COSE signature, and review CWT claims in a step-by-step breakdown.</p>
+            <div class="dev-tags"><span class="dev-tag">Verification</span><span class="dev-tag">Signature check</span><span class="dev-tag">Payload inspector</span></div>
+            <a class="dev-cta" href="https://sandbox.mosip.net/" target="_blank" rel="noopener noreferrer" aria-label="Open Verifier Playground (opens in a new tab)">Open Playground
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — SDKs (coming soon · compact)
+    ================================================================= -->
+    <section class="section dev-section" id="sdks" aria-labelledby="sdks-title">
+      <div class="container container--wide">
+        <div class="dev-head">
+          <h2 id="sdks-title">SDKs</h2>
+          <p>Native libraries for generating and verifying Claim 169 QR codes across platforms.</p>
+        </div>
+
+        <div class="dev-grid dev-grid--soon">
+          <article class="dev-card dev-card--soon" style="--c:#014daf">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M13 6l-2 12"/></svg></span>
+            <span class="dev-card__name"><h3>Java SDK</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+          <article class="dev-card dev-card--soon" style="--c:#0a8754">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
+            <span class="dev-card__name"><h3>Kotlin SDK</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+          <article class="dev-card dev-card--soon" style="--c:#fec40d">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span>
+            <span class="dev-card__name"><h3>Swift SDK</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+          <article class="dev-card dev-card--soon" style="--c:#fa8005">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a9 9 0 0 0 0 18M12 3a9 9 0 0 1 0 18"/></svg></span>
+            <span class="dev-card__name"><h3>JavaScript SDK</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3 — UI Components (coming soon · compact)
+    ================================================================= -->
+    <section class="section dev-section" id="components" aria-labelledby="components-title">
+      <div class="container container--wide">
+        <div class="dev-head">
+          <h2 id="components-title">UI Components</h2>
+          <p>Ready-to-use UI components for scanning and rendering QR codes in your application.</p>
+        </div>
+
+        <div class="dev-grid dev-grid--soon">
+          <article class="dev-card dev-card--soon" style="--c:#01a2fd">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg></span>
+            <span class="dev-card__name"><h3>QR Scanner Component</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+          <article class="dev-card dev-card--soon" style="--c:#0a8754">
+            <span class="dev-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 21v.01M17.5 21h.01M21 17.5v.01"/></svg></span>
+            <span class="dev-card__name"><h3>QR Generator Component</h3><span class="dev-badge dev-badge--soon">Coming soon</span></span>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER (identical to index.html; anchors resolve to home) ===== -->
+  <footer class="site-footer" aria-labelledby="footer-title">
+    <h2 id="footer-title" class="sr-only">Site footer</h2>
+    <div class="container container--wide">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="brand__name">CLAIM <b style="color:var(--accent-on-light)">169</b></span>
+          <p>A standardized CBOR-based QR code format for portable, offline-verifiable digital identity.</p>
+          <p class="meta" id="point-of-contact">Point of Contact: <a href="mailto:resham@mosip.io">resham@mosip.io</a> · Maintained by <b>MOSIP</b></p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html#about">About</a>
+          <a href="index.html#specification">Specification</a>
+          <a href="index.html#use-cases">Use Cases</a>
+          <a href="index.html#use-169">Use Claim 169</a>
+          <a href="resources.html">Resources</a>
+          <a href="index.html#contribute">Contribute</a>
+          <a href="faqs.html">FAQs</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MOSIP — Modular Open Source Identity Platform</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claim 169 — Secure Identity in a Single QR Code</title>
+  <link rel="icon" type="image/png" href="./assets/mosip-logo.png">
+  <meta name="description" content="Claim 169 defines a standardized, CBOR-based QR code format for embedding digitally-signed identity data — enabling offline biometric authentication across borders and in low-connectivity regions." />
+
+  <!-- FONTS: display = Poppins, body = Hanken Grotesk, mono = JetBrains Mono.
+       Swap families here AND in tokens.css (--font-*). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- No-flash theme: set data-theme before first paint (system pref + saved choice) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("claim169-theme");
+        var sys = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", saved || sys);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+
+  <!-- TOKENS FIRST (edit this to re-skin) → then component styles -->
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ====================================================================
+       HEADER / NAV  (reusable — copy to every new page; see page-template.html)
+       Nav items map to on-page anchors today; swap href to real page URLs
+       (e.g. /specification.html) as you add pages.
+  ===================================================================== -->
+  <header class="site-header">
+    <div class="container container--wide site-header__inner">
+      <a class="brand" href="#top" aria-label="Claim 169 — home">
+        <span class="brand__name">CLAIM <b style="font-size: 24px">169</b></span>
+        <span class="brand__sub">QR Code Specification</span>
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#specification">Specification</a></li>
+          <li><a href="#use-cases">Use Cases</a></li>
+          <li><a href="#use-169">Use Claim 169</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#contribute">Contribute</a></li>
+          <li><a href="#faq">FAQs</a></li>
+        </ul>
+        <div class="nav-drawer-actions">
+          <a href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View project on GitHub (opens in a new tab)">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+            View on GitHub
+          </a>
+          <a href="#contribute">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+            Join the Working Group
+          </a>
+          <a href="#contact">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Contact Us
+          </a>
+        </div>
+      </nav>
+
+      <div class="header-actions"><div class="action-group">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-describedby="tt-theme">
+          <!-- sun (shown in dark mode → click for light) -->
+          <svg class="i-sun" viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+          <!-- moon (shown in light mode → click for dark) -->
+          <svg class="i-moon" viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"/></svg>
+          <span class="tt" role="tooltip" id="tt-theme">Dark mode</span>
+        </button>
+        <a class="icon-btn" href="#contributors" aria-label="Contributors" aria-describedby="tt-contributors">
+          <!-- user-plus -->
+          <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+          <span class="tt" role="tooltip" id="tt-contributors">Contributors</span>
+        </a>
+        <a class="icon-btn" href="#point-of-contact" aria-label="Point of Contact" aria-describedby="tt-contact">
+          <!-- mail -->
+          <svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span class="tt" role="tooltip" id="tt-contact">Point of Contact</span>
+        </a>
+        </div><span class="header-divider" aria-hidden="true"></span><div class="action-group">
+        <a class="btn btn--outline" href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View project on GitHub (opens in a new tab)">
+          <!-- github -->
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+          <span class="btn-github-text">GitHub</span>
+        </a>
+        <a class="btn btn--latest label-hide" href="https://docs.mosip.io/1.2.0/readme/standards-and-specifications/mosip-standards/169-qr-code-specification" target="_blank" rel="noopener noreferrer">Latest Spec ↗</a>
+
+        </div><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <span id="top"></span>
+
+    <!-- ================================================================
+         HERO
+    ================================================================= -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container container--wide">
+        <div class="hero__grid">
+          <div class="hero__copy">
+            <div class="hero__badges">
+              <a class="hero__badge hero__badge--accent" href="https://www.iana.org/assignments/cwt/cwt.xhtml" target="_blank" rel="noopener noreferrer" aria-label="IANA CWT Registry (opens in a new tab)">
+                IANA CWT Registry
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+              <span class="hero__dot" aria-hidden="true"></span>
+              <span class="hero__badge">
+                <img class="hero__badge-logo" src="assets/mosip-logo.png" alt="" aria-hidden="true" width="16" height="16" />
+                Open Standard by MOSIP
+              </span>
+            </div>
+
+            <h1 id="hero-title" style="font-size: 48px">Secure Identity in a <span class="accent">Single QR Code</span></h1>
+
+            <p class="hero__lede">Claim 169 defines a standardized CBOR-based QR code format for embedding digitally-signed identity data — enabling offline biometric authentication across borders and in low-connectivity regions.</p>
+
+            <strong class="hero__highlight">An open standard shaped by the ecosystem, for the ecosystem.</strong>
+
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="#specification">
+                View Specification
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+              <a class="btn btn--ghost-dark" href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+                GitHub
+              </a>
+            </div>
+
+            <dl class="hero__stats">
+              <div class="stat-card"><dd class="stat-card__num">75+</dd><dt class="stat-card__label">Identity Attributes</dt></div>
+              <div class="stat-card"><dd class="stat-card__num">8+</dd><dt class="stat-card__label">Contributing Orgs</dt></div>
+              <div class="stat-card"><dd class="stat-card__num">3+</dd><dt class="stat-card__label">POCs / Adoptions</dt></div>
+            </dl>
+          </div>
+
+          <div class="hero__visual">
+            <p class="hero__visual-label">Identity Data</p>
+            <div class="qr-panel" role="img" aria-label="Illustration of a Claim 169 QR code with a 169 badge at its center">
+              <span class="qr-corner qr-corner--tl" aria-hidden="true"></span>
+              <span class="qr-corner qr-corner--tr" aria-hidden="true"></span>
+              <span class="qr-corner qr-corner--bl" aria-hidden="true"></span>
+              <span class="qr-corner qr-corner--br" aria-hidden="true"></span>
+              <div class="qr-matrix" id="qr-matrix" aria-hidden="true"></div>
+              <span class="qr-badge" aria-hidden="true">169</span>
+            </div>
+            <ul class="qr-legend">
+              <li><span class="ldot" style="background:var(--accent-bright)" aria-hidden="true"></span> CBOR Encoded</li>
+              <li><span class="ldot" style="background:var(--success)" aria-hidden="true"></span> COSE Signed</li>
+              <li><span class="ldot" style="background:var(--gold)" aria-hidden="true"></span> Base45 + zlib</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         ABOUT  (single heading; two aligned sub-topics: What is / Why)
+    ================================================================= -->
+    <section class="section section--sunken" id="about" aria-labelledby="about-title">
+      <div class="container container--wide">
+        <header class="section-head about-head">
+          <span class="eyebrow">About</span>
+          <h2 id="about-title">What Claim 169 is — and why it matters</h2>
+        </header>
+
+        <div class="about-flow">
+
+          <!-- PART 01 — What is Claim 169? -->
+          <article class="about-part about-part--what" aria-labelledby="about-what-title">
+            <header class="about-part__head">
+              <span class="about-part__step" aria-hidden="true">01</span>
+              <div class="about-part__heading">
+                <span class="about-part__kicker">The concept</span>
+                <h3 class="about-part__title" id="about-what-title">What is Claim 169?</h3>
+              </div>
+            </header>
+            <p class="about-part__lede">Claim 169 defines a standardized, CBOR-based QR code format for securely embedding identity data in a machine-readable optical format.</p>
+
+            <div class="about-cards">
+              <div class="edge-card edge-card--soft-info">
+              <p class="edge-card__label">It enables:</p>
+              <ul class="feature-list feature-list--check">
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Storage of identity data + photo within a QR code</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Digitally signed credentials issued by trusted authorities</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Offline verification without requiring connectivity</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Facial authentication using embedded image + data</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Compact encoding using CBOR, CWT, and COSE for QR efficiency</li>
+              </ul>
+            </div>
+
+            <div class="edge-card edge-card--soft-success">
+              <p class="edge-card__label">The design uses:</p>
+              <div class="spec-rows">
+                <div class="spec-row"><span class="spec-row__name">CBOR</span><span class="code-badge">RFC 7049</span><span class="spec-row__desc">compact data representation</span></div>
+                <div class="spec-row"><span class="spec-row__name">CWT</span><span class="code-badge">RFC 8392</span><span class="spec-row__desc">token structure</span></div>
+                <div class="spec-row"><span class="spec-row__name">COSE</span><span class="code-badge">RFC 8152</span><span class="spec-row__desc">signing and encryption</span></div>
+                <div class="spec-row"><span class="spec-row__name">ECC / Ed25519</span><span aria-hidden="true"></span><span class="spec-row__desc">smaller, efficient signatures</span></div>
+              </div>
+            </div>
+            </div>
+
+            <p class="about-part__outro">This allows identity credentials to be portable, verifiable, and interoperable across systems.</p>
+
+            <div class="tag-row about-tags">
+              <span class="chip chip--accent">Cryptographically Signed</span>
+              <span class="chip chip--success">Offline-First</span>
+              <span class="chip chip--warning">Platform Agnostic</span>
+              <span class="chip chip--accent">Open Working Group</span>
+            </div>
+
+            <div class="edge-card">
+              <p style="font-weight: var(--weight-semibold); display:flex; gap: var(--space-3); align-items:flex-start;">
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" style="width:22px;height:22px;stroke:var(--accent);flex-shrink:0;margin-top:2px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                A secure, compact, and interoperable way to carry identity — in a single QR code.
+              </p>
+            </div>
+
+            <div class="about-links">
+              <a class="arrow-link" href="#specification">Read full specification
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="arrow-link" href="https://www.iana.org/assignments/cwt/cwt.xhtml" target="_blank" rel="noopener noreferrer" aria-label="IANA CWT Registry (opens in a new tab)">IANA CWT Registry
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Flow connector: concept → value -->
+          <div class="about-connector" aria-hidden="true">
+            <span class="about-connector__line"></span>
+            <span class="about-connector__arrow"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
+          </div>
+
+          <!-- PART 02 — Why Claim 169? -->
+          <article class="about-part about-part--why" aria-labelledby="about-why-title">
+            <header class="about-part__head">
+              <span class="about-part__step" aria-hidden="true">02</span>
+              <div class="about-part__heading">
+                <span class="about-part__kicker">Why it matters</span>
+                <h3 class="about-part__title" id="about-why-title">Why Claim 169?</h3>
+              </div>
+            </header>
+            <p class="about-part__lede">In low-connectivity and cross-border environments, traditional identity systems often fail — leaving millions without reliable access to trusted identity.</p>
+
+            <div class="about-cards">
+              <div class="edge-card edge-card--danger">
+              <p class="edge-card__label">People may:</p>
+              <ul class="feature-list feature-list--cross">
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Lose physical credentials</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Lack access to smartphones</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Depend on unreliable or unavailable networks</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Struggle with expensive smart or plastic cards</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Forget passwords or PINs required for verification</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Use weak or easily guessable PINs (e.g. 0000, 1234)</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Face challenges when credentials are damaged or compromised</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Experience identity data exposure during verification</li>
+              </ul>
+              <p class="edge-card__note">Making secure and reliable verification difficult when it matters most.</p>
+            </div>
+
+            <div class="edge-card edge-card--soft-info">
+              <p class="edge-card__label">Bridging the identity gap</p>
+              <p style="margin-bottom: var(--space-5)"><strong>Claim 169</strong> solves this by enabling identity to be carried in a single QR code — securely and portably.</p>
+              <ul class="feature-list feature-list--check">
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Digitally signed identity data + photo</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Usable on devices or as a printed credential</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Verifiable without internet connectivity</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Reduces dependency on passwords and/or smartcards</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Enables trusted offline identity verification across systems and borders</li>
+                <li><svg viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Minimizes unnecessary data exposure</li>
+              </ul>
+              <p class="edge-card__note">Even without a phone, individuals can present a printed QR code and securely access services with confidence.</p>
+            </div>
+            </div>
+
+            <p class="about-part__outro">By supporting both digital and non-digital use cases, Claim 169 brings together:</p>
+            <div class="tag-row about-tags">
+              <span class="chip"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M2 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1M17 11l2 2 4-4"/></svg> Accessibility</span>
+              <span class="chip chip--success"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Portability</span>
+              <span class="chip chip--warning"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> Privacy</span>
+              <span class="chip chip--accent"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6Z"/></svg> Trust</span>
+            </div>
+
+            <div class="edge-card">
+              <p style="font-weight: var(--weight-semibold); display:flex; gap: var(--space-3); align-items:flex-start;">
+                <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true" style="width:22px;height:22px;stroke:var(--accent);flex-shrink:0;margin-top:2px;"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                Enabling secure, high-assurance identity verification — anywhere, anytime.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         PROCESS — How It Works (6 steps)
+    ================================================================= -->
+    <section class="section" id="how-it-works" aria-labelledby="process-title">
+      <div class="container container--wide">
+        <div class="section-head">
+          <span class="eyebrow">Process</span>
+          <h2 id="process-title">
+</h2>
+          <p>From Identity to Trusted Verification</p>
+        </div>
+
+        <ol class="process-track">
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 21v.01M17.5 21h.01M21 17.5v.01"/></svg></span><span class="process-step__num">01</span></div><h3>Generate QR Code</h3><p>Secure identity data is encoded and signed into a QR</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M5 16c.4-1.4 1.6-2 3-2s2.6.6 3 2M14 10h4M14 14h3"/></svg></span><span class="process-step__num">02</span></div><h3>Issue Credential</h3><p>QR is shared digitally or printed for the individual</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 14V4M8.5 7.5 12 4l3.5 3.5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></span><span class="process-step__num">03</span></div><h3>Present QR Code</h3><p>User presents QR at verification point</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg></span><span class="process-step__num">04</span></div><h3>Scan &amp; Decode</h3><p>Verifier scans and extracts identity data</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="process-step__num">05</span></div><h3>Verify Identity</h3><p>Signature validated + face match confirms presence</p></li>
+          <li class="process-step"><div class="process-step__head"><span class="process-step__badge"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5M15 12H3"/></svg></span><span class="process-step__num">06</span></div><h3>Access Service</h3><p>Identity verified → service delivered</p></li>
+        </ol>
+
+        <div class="process-foot">
+          <a class="arrow-link" href="how-it-works.html">Explore the Full Process
+            <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SPECIFICATION — Claim Registry
+    ================================================================= -->
+    <section class="section section--sunken" id="specification" aria-labelledby="registry-title">
+      <div class="container container--wide">
+        <div class="section-head">
+          <span class="eyebrow">Technical Specification</span>
+          <h2 id="registry-title">Claim Registry</h2>
+          <p>Full data structure for Claim 169 — CBOR Map encoding identity and biometric data</p>
+        </div>
+
+        <div class="registry-card">
+          <div class="registry-spec">
+            <span class="registry-spec__band" aria-hidden="true"></span>
+            <div class="spec-cell"><p class="spec-cell__label">Tag Number</p><p class="spec-cell__value">169</p></div>
+            <div class="spec-cell"><p class="spec-cell__label">Data Format</p><p class="spec-cell__value">CBOR Map</p></div>
+            <div class="spec-cell"><p class="spec-cell__label">Token Type</p><p class="spec-cell__value">CWT</p></div>
+            <div class="spec-cell"><p class="spec-cell__label">Encoding</p><p class="spec-cell__value">Base45</p></div>
+            <div class="spec-cell"><p class="spec-cell__label">Compression</p><p class="spec-cell__value">zlib / Brotli</p></div>
+            <div class="spec-cell"><p class="spec-cell__label">Signature</p><p class="spec-cell__value">ED25519 / ECC</p></div>
+          </div>
+
+          <div class="registry-body">
+            <p>Claim 169 defines 75+ standardised identity attributes across CWT headers, demographic fields (claims 1–23), and biometric fields (claims 50–65). Each QR code encodes a cryptographically-signed CBOR structure that verifiers can authenticate without any network dependency.</p>
+
+            <div class="version-card">
+              <div class="version-card__head">
+                <span class="version-pill">v1.2.1</span>
+                <span class="chip chip--accent">Latest</span>
+                <span style="color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--text-sm)">TBA</span>
+                <a class="arrow-link" href="versions.html" aria-label="View all versions">All versions
+                  <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+              <p class="version-card__desc">Biometric standardization, dual compression support, improved key discovery.</p>
+              <ul>
+                <li>Brotli compression alongside zlib</li>
+                <li>COSE-based key discovery (JWKS deprecated)</li>
+                <li><code>iss</code> claim requires fully qualified URI</li>
+                <li>Claims 16/17 deprecated — face moved to Claim 62 biometric object</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         USE CASES — In Practice (adoption)
+    ================================================================= -->
+    <section class="section" id="use-cases" aria-labelledby="usecases-title">
+      <div class="container container--wide">
+        <div class="section-head">
+          <span class="eyebrow">Use Cases</span>
+          <h2 id="usecases-title">In Practice: Ecosystem Evolution &amp; Adoption</h2>
+          <p>Live deployments demonstrating trusted offline identity verification across national and sectoral contexts.</p>
+        </div>
+
+        <div class="usecase-grid">
+          <article class="usecase-card usecase-card--feature">
+            <p class="usecase-card__kicker">Ecosystem Evolution</p>
+            <h3>Philippines — PhilSys &amp; Financial Inclusion</h3>
+            <p>PhilSys, the Philippines' national digital ID system built on MOSIP, enabled millions of previously unbanked residents to open bank accounts for the first time, significantly advancing financial inclusion. As adoption expanded into low-connectivity and assisted-service environments, the need for trusted offline identity verification became increasingly evident, <strong>helping shape the evolution of the Claim 169</strong> QR code specification for secure, portable, offline-verifiable credentials.</p>
+            <div class="tag-row">
+              <span class="chip chip--warning">Financial Inclusion</span>
+              <span class="chip chip--accent">Offline Verification</span>
+              <span class="chip chip--success">Portable Credentials</span>
+              <span class="chip chip--warning">Digital Identity</span>
+            </div>
+          </article>
+
+          <article class="usecase-card usecase-card--b">
+            <p class="usecase-card__kicker">Country Implementation</p>
+            <h3>Ethiopia — Fayda Digital ID</h3>
+            <p>Ethiopia's national ID system enables offline identity verification using QR-based credentials and biometrics. Supported by TECH5, it powers secure authentication and service access across public and private sectors.</p>
+            <div class="tag-row">
+              <span class="chip chip--success">Offline Verification</span>
+              <span class="chip chip--accent">Biometric Authentication</span>
+              <span class="chip chip--success">National ID</span>
+            </div>
+          </article>
+
+          <article class="usecase-card usecase-card--c">
+            <p class="usecase-card__kicker">Country Implementation</p>
+            <h3>Uganda — Digital Identity Ecosystem</h3>
+            <p>Uganda is modernizing its identity systems using MOSIP-based approaches to enable secure, interoperable identity verification across services, with growing support for offline and portable credentials using Claim 169.</p>
+            <div class="tag-row">
+              <span class="chip chip--accent">Interoperable</span>
+              <span class="chip chip--success">Biometric Identity</span>
+              <span class="chip chip--accent">Government Services</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         WHERE — carousel of potential use contexts
+    ================================================================= -->
+    <section class="section section--sunken" aria-labelledby="where-title">
+      <div class="container container--wide">
+        <div class="section-head">
+          <h2 id="where-title">Where Claim 169 can be Used</h2>
+          <p>Potential use cases enabling trusted offline identity verification across humanitarian, government, and development contexts.</p>
+        </div>
+
+        <div class="carousel">
+          <button class="carousel__btn carousel__btn--prev" id="where-prev" aria-label="Previous use cases">
+            <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <div class="carousel__viewport">
+            <ul class="carousel__track" id="where-track" tabindex="0" aria-label="Use case cards (scrollable)">
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 2 3 7v6c0 5 3.5 8 9 10 5.5-2 9-5 9-10V7Z"/></svg></div>
+                <p class="use-card__kicker">Humanitarian</p>
+                <h3>Refugee &amp; Displaced Person ID</h3>
+                <p>UNHCR and partner agencies use Claim 169 QR codes on physical cards for displaced populations who lack internet access. A single scan verifies identity, biometrics, and entitlements offline.</p>
+                <div class="tag-row"><span class="chip chip--accent">UNHCR Partner</span><span class="chip">Offline</span></div>
+              </li>
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+                <p class="use-card__kicker">Government</p>
+                <h3>National ID Cards</h3>
+                <p>National ID programs embed Claim 169 QR codes on physical cards, allowing authorities to verify identity during power outages, in rural areas, or at land border crossings without network access.</p>
+                <div class="tag-row"><span class="chip chip--success">Physical Card</span><span class="chip chip--accent">Rural Access</span><span class="chip chip--warning">Border Control</span></div>
+              </li>
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <p class="use-card__kicker">Healthcare</p>
+                <h3>Proof of Vaccination</h3>
+                <p>Individuals can present QR codes to verify vaccination status at checkpoints, travel hubs, or healthcare facilities — even without connectivity. Digitally signed data ensures authenticity, while optional biometric verification confirms the right individual receives care.</p>
+                <div class="tag-row"><span class="chip chip--success">No Connectivity</span></div>
+              </li>
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg></div>
+                <p class="use-card__kicker">Cross-border</p>
+                <h3>International Travel</h3>
+                <p>Travelers crossing borders in regions with limited digital infrastructure can be verified by scanning the Claim 169 QR code. Works even when central databases are unreachable.</p>
+                <div class="tag-row"><span class="chip chip--warning">Border Control</span><span class="chip">Offline</span></div>
+              </li>
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></div>
+                <p class="use-card__kicker">Sectoral ID</p>
+                <h3>Sectoral Identity Credentials</h3>
+                <p>Claim 169 enables issuance of trusted, sector-specific IDs that can be verified across services — ensuring secure, interoperable access even without connectivity.</p>
+                <div class="tag-row"><span class="chip chip--accent">Interoperable</span><span class="chip chip--success">Trusted Identity</span></div>
+              </li>
+              <li class="use-card">
+                <div class="use-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5M3 17l9 5 9-5"/></svg></div>
+                <p class="use-card__kicker">Financial Inclusion</p>
+                <h3>Unbanked Population Onboarding</h3>
+                <p>Financial service providers can onboard unbanked individuals using Claim 169 credentials, enabling KYC verification without requiring document uploads or real-time API calls.</p>
+                <div class="tag-row"><span class="chip chip--success">KYC</span><span class="chip chip--accent">Financial Access</span></div>
+              </li>
+              <li class="use-card use-card--more">
+                <h3>And More…</h3>
+                <p>Claim 169 is adaptable to any context requiring secure, offline-capable identity verification.</p>
+              </li>
+            </ul>
+          </div>
+          <button class="carousel__btn carousel__btn--next" id="where-next" aria-label="Next use cases">
+            <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="band">
+          <p style="font-size: 32px">Claim 169 addresses the global identity gap — serving populations that traditional digital identity systems have failed to reach.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         USE CLAIM 169 — get involved
+    ================================================================= -->
+    <section class="section" id="use-169" aria-labelledby="use169-title">
+      <div class="container container--wide">
+        <div class="section-head">
+          <span class="eyebrow">Get Involved</span>
+          <h2 id="use169-title">Use Claim 169</h2>
+          <p>Claim 169 — an open standard designed by and for the global identity ecosystem. Here's how you can start using it.</p>
+        </div>
+
+        <div class="use169-panel">
+          <h3>Experiment with real credential issuance and verification workflows.</h3>
+          <p>Build, test, and integrate using interactive playgrounds, SDKs, and reusable UI components.</p>
+          <div class="use169-options">
+            <div class="option-tile">
+              <span class="option-tile__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg></span>
+              <div><h4>SDKs</h4><p>Java, Kotlin, Swift, JavaScript</p></div>
+            </div>
+            <div class="option-tile">
+              <span class="option-tile__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+              <div><h4>Components</h4><p>Scanner &amp; Generator UI components</p></div>
+            </div>
+            <div class="option-tile">
+              <span class="option-tile__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M14 7a3 3 0 0 1 0 4l-1 1-8 8H2v-3l8-8 1-1a3 3 0 0 1 3-1Z"/><path d="m15 6 3 3"/></svg></span>
+              <div><h4>Playground</h4><p>Live issuer and verifier playgrounds</p></div>
+            </div>
+          </div>
+          <div class="use169-cta">
+            <a class="btn btn--primary" href="use-claim-169.html#playgrounds">Try the Playground →</a>
+          </div>
+        </div>
+
+        <h3 class="howto-title">How to Use Claim 169</h3>
+        <div class="howto-grid">
+          <article class="howto-card">
+            <span class="howto-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5M3 17l9 5 9-5"/></svg></span>
+            <h4>Implement in Your Platform</h4>
+            <p>Integrate Claim 169 into any ID issuance platform using the open specification. The CBOR-based structure and standard encoding pipeline work with any technology stack.</p>
+            <a class="arrow-link" href="#specification">Read the Specification
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+          <article class="howto-card">
+            <span class="howto-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+            <h4>Build a Verifier App</h4>
+            <p>Create a scanner or verifier application that reads Claim 169 QR codes. The open standard means any compliant verifier can read any compliant credential, anywhere.</p>
+            <a class="arrow-link" href="https://github.com/Claim169" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub (opens in a new tab)">View on GitHub
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+          <article class="howto-card">
+            <span class="howto-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a9 9 0 0 0 0 18M12 3a9 9 0 0 1 0 18"/></svg></span>
+            <h4>Deploy for Cross-border Use</h4>
+            <p>Adopt Claim 169 for humanitarian, government, or development programmes where offline identity verification across borders is needed for underserved populations.</p>
+            <a class="arrow-link" href="#use-cases">Explore Use Cases
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         RESOURCES TEASER
+    ================================================================= -->
+    <section class="section" id="resources" aria-labelledby="resources-title">
+      <div class="container container--wide">
+        <div class="res-teaser" style="justify-content: flex-start">
+          <div class="res-teaser__body">
+            <span class="eyebrow">Resource Library</span>
+            <h2 id="resources-title">Resources</h2>
+            <p>Talks, podcasts, articles, and webinars on Claim 169 — everything we've published to help you learn, build, and adopt the spec.</p>
+            <ul class="res-teaser__chips">
+              <li class="chip"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3-6 3V5a1 1 0 0 1 1-1Z"/></svg> Articles</li>
+              <li class="chip"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3Z"/></svg> Videos</li>
+              <li class="chip"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg> Podcasts</li>
+              <li class="chip"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> Webinars</li>
+            </ul>
+          </div>
+          <a class="btn btn--primary res-teaser__cta" href="resources.html">Explore Resources →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CONTRIBUTE
+    ================================================================= -->
+    <section class="section section--sunken" id="contribute" aria-labelledby="contribute-title">
+      <div class="container container--wide">
+        <h2 class="howto-title" style="margin-top:0" id="contribute-title">How to Contribute</h2>
+
+        <div class="contribute-cta">
+          <h3>Ready to get started?</h3>
+          <p>The standard is open, and the Working Group welcomes contributions from across the ecosystem.</p>
+          <p>Participate in discussions, review proposals, and help shape Claim 169. You can also contribute directly by proposing new fields, raising issues, reviewing pull requests, or improving documentation.</p>
+          <div class="cta-grid">
+            <a class="cta-card cta-card--primary" href="https://docs.mosip.io/1.2.0/readme/standards-and-specifications/mosip-standards/169-qr-code-specification" target="_blank" rel="noopener noreferrer">
+              <span class="cta-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M14 3v5h5"/><path d="M7 3h7l5 5v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 13h6M9 17h6"/></svg></span>
+              <span class="cta-card__body">
+                <span class="cta-card__label">Read the Spec</span>
+                <span class="cta-card__desc">The full v1.2.1 specification</span>
+              </span>
+              <span class="cta-card__arrow"><svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </a>
+            <a class="cta-card" href="https://github.com/Claim169/id-claim-169/issues" target="_blank" rel="noopener noreferrer" aria-label="Raise an issue on GitHub (opens in a new tab)">
+              <span class="cta-card__icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg></span>
+              <span class="cta-card__body">
+                <span class="cta-card__label">Raise an Issue on GitHub</span>
+                <span class="cta-card__desc">Report bugs or propose changes</span>
+              </span>
+              <span class="cta-card__arrow"><svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </a>
+            <a class="cta-card" href="https://mosip.atlassian.net/wiki/external/OWExMjBhYzQ3Mjk1NGZlOWExMWEzODA2YzVjYjExNmQ" target="_blank" rel="noopener noreferrer" aria-label="View working group notes (opens in a new tab)">
+              <span class="cta-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3.5h6v1"/><path d="M9 10h6M9 14h6"/></svg></span>
+              <span class="cta-card__body">
+                <span class="cta-card__label">View Working Group Notes</span>
+                <span class="cta-card__desc">Browse iteration discussions</span>
+              </span>
+              <span class="cta-card__arrow"><svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            </a>
+            <a class="cta-card" href="#contact">
+              <span class="cta-card__icon"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <span class="cta-card__body">
+                <span class="cta-card__label">Contact Us</span>
+                <span class="cta-card__desc">Email the working group directly</span>
+              </span>
+              <span class="cta-card__arrow"><svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </a>
+          </div>
+          <p class="contribute-cta__note">Your involvement helps build interoperable and inclusive identity systems.</p>
+        </div>
+
+        <!-- CONTRIBUTORS -->
+        <div class="contributors-card" id="contributors" style="margin-top: var(--space-12)">
+          <div class="contributors-head">
+            <span class="contributors-head__icon" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg></span>
+            <div class="contributors-head__body">
+              <span class="eyebrow">Working Group</span>
+              <h2>Contributors</h2>
+              <p>Claim 169 is developed collaboratively by a global working group of identity experts, humanitarian organizations, and technology partners.</p>
+            </div>
+            <button class="collapse-btn" id="contrib-toggle" aria-expanded="true" aria-controls="contrib-body">
+              Hide contributors
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+            </button>
+          </div>
+
+          <div id="contrib-body">
+            <h3 class="authors-title">Specification Authors</h3>
+            <div class="authors-grid">
+              <div class="author-card"><span class="avatar">MT</span><span class="author-card__name">Mahammed Taheer</span><span class="org-tag">MOSIP</span></div>
+              <div class="author-card"><span class="avatar">RC</span><span class="author-card__name">Resham Chugani</span><span class="org-tag">MOSIP</span></div>
+              <div class="author-card"><span class="avatar">SG</span><span class="author-card__name">Sasikumar G</span><span class="org-tag">MOSIP</span></div>
+            </div>
+
+            <div class="orgs-header">
+              <h3 class="orgs-title" id="orgs-title">Organizations</h3>
+              <button class="members-toggle" id="members-toggle" type="button"
+                      aria-expanded="false" aria-controls="orgs-grid">
+                <span class="members-toggle__label">Show all members</span>
+                <svg class="members-toggle__chev" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+            </div>
+            <p class="sr-only" id="members-status" role="status" aria-live="polite"></p>
+            <div class="orgs-grid" id="orgs-grid" data-members-open="false">
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">GetGroup</span><span class="org-card__count">1 member</span></div><p class="org-card__role">Identity Solutions</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Aiman Tarek</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">GIZ</span><span class="org-card__count">2 members</span></div><p class="org-card__role">Development Cooperation</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Anita Mittal</li><li>Aisha Merhebi</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">Inji</span><span class="org-card__count">4 members</span></div><p class="org-card__role">Digital Credentials</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Preeti Hongal</li><li>Ramesh Narayanan</li><li>Sanchi Singh</li><li>Swati Goel</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">MOSIP</span><span class="org-card__count">10 members</span></div><p class="org-card__role">Platform &amp; Coordination</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Janardhan BS</li><li>Mahammed Taheer</li><li>Mayura Deshmukh</li><li>Pragya Kumari</li><li>Reeba Thomas</li><li>Resham Chugani</li><li>Sasikumar Ganesan</li><li>Sivanand Lanka</li><li>Varaniya Selvaraja</li><li>Vishwanath V</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">Ooru</span><span class="org-card__count">2 members</span></div><p class="org-card__role">Digital Public Infrastructure</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Rounak Nayak</li><li>Priyank Trivdei</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">OpenSPP</span><span class="org-card__count">1 member</span></div><p class="org-card__role">Social Protection</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Jeremi Joslin</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">PWC</span><span class="org-card__count">1 member</span></div><p class="org-card__role">Consulting &amp; Governance</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Chaitanya Giri</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">Tech5</span><span class="org-card__count">3 members</span></div><p class="org-card__role">Biometric Technology</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Bejoy Ak</li><li>Nelson Branco</li><li>Rahul Parthe</li></ul></div></div></div>
+              <div class="org-card"><div class="org-card__head"><span class="org-card__dot"></span><span class="org-card__name">UNHCR</span><span class="org-card__count">3 members</span></div><p class="org-card__role">Humanitarian Identity</p><div class="org-card__members"><div class="org-card__mwrap"><ul><li>Norbert Trosien</li><li>Samantha Eisenhauer</li><li>Sam Jefferies</li></ul></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FAQ + CONTACT
+    ================================================================= -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container container--wide">
+        <div class="faq-band">
+          <span class="faq-band__icon" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3"/><path d="M12 17h.01"/></svg></span>
+          <div class="faq-band__body">
+            <h3 id="faq-title">Have questions about Claim 169?</h3>
+            <p>Explore key concepts, security, and privacy details in our Frequently Asked Questions.</p>
+          </div>
+          <a class="btn btn--primary" href="faqs.html">View FAQs ›</a>
+        </div>
+
+        <div class="contact-band" id="contact">
+          <span class="contact-band__icon" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <div class="contact-band__body">
+            <h3>Point of Contact</h3>
+            <p>For questions about the specification, working group participation, or implementation guidance:</p>
+            <a class="mail" href="mailto:resham@mosip.io">Resham Chugani — resham@mosip.io</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====================================================================
+       FOOTER  (reusable — copy to every new page)
+  ===================================================================== -->
+  <footer class="site-footer" aria-labelledby="footer-title">
+    <h2 id="footer-title" class="sr-only">Site footer</h2>
+    <div class="container container--wide">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="brand__name">CLAIM <b style="color:var(--accent-on-light)">169</b></span>
+          <p>A standardized CBOR-based QR code format for portable, offline-verifiable digital identity.</p>
+          <p class="meta" id="point-of-contact">Point of Contact: <a href="mailto:resham@mosip.io">resham@mosip.io</a> · Maintained by <b>MOSIP</b></p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="#about">About</a>
+          <a href="#specification">Specification</a>
+          <a href="#use-cases">Use Cases</a>
+          <a href="#use-169">Use Claim 169</a>
+          <a href="resources.html">Resources</a>
+          <a href="#contribute">Contribute</a>
+          <a href="faqs.html">FAQs</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MOSIP — Modular Open Source Identity Platform</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

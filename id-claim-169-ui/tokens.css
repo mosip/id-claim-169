@@ -1,0 +1,263 @@
+/* ============================================================================
+   CLAIM 169 — DESIGN TOKENS  (Glassmorphism · Dual-theme)
+   ----------------------------------------------------------------------------
+   One file to re-skin everything. Color ROLES are defined twice:
+     :root                -> LIGHT theme (airy glass on a soft pastel mesh)
+     :root[data-theme=dark] -> DARK theme (tinted glass on a deep gradient mesh)
+   Non-color tokens (type, space, radius, motion) are theme-independent.
+
+   GLASS MODEL
+   - Surfaces are semi-transparent + backdrop-blur, edged with a 1px light
+     border and an inner top highlight so panels read as real glass.
+   - "Ink" tokens carry meaning-color TEXT that stays AA-legible in each theme.
+   - Both themes are fully designed and meet WCAG 2.2 AA for text contrast.
+   ========================================================================== */
+
+:root {
+  /* ---- NEUTRAL SCALE (reference) ------------------------------------ */
+  --neutral-0:#fff; --neutral-50:#f6f8fb; --neutral-100:#eef1f6; --neutral-200:#e0e5ee;
+  --neutral-300:#c9d1de; --neutral-400:#97a2b4; --neutral-500:#687589; --neutral-600:#4d586b;
+  --neutral-700:#374152; --neutral-800:#232b39; --neutral-900:#161c27; --neutral-950:#0c111b;
+
+  /* ====================  LIGHT THEME  ============================== */
+
+  /* Page mesh (soft pastel) — consumed by body in styles.css */
+  --mesh-base: #e6edf9;
+  --mesh-1: rgba(  1, 77,175,0.32);   /* MOSIP deep blue  */
+  --mesh-2: rgba(  1,162,253,0.34);   /* MOSIP bright blue*/
+  --mesh-3: rgba(  1, 77,175,0.22);   /* deep blue echo   */
+  --mesh-4: rgba( 10,135, 84,0.15);   /* green (subtle)   */
+  --mesh-5: rgba(254,196,  1,0.16);   /* gold  (subtle)   */
+
+  /* Glass surfaces (faintly blue-tinted for brand cohesion) */
+  --surface:        rgba(247,250,255,0.62);
+  --surface-strong: rgba(249,251,255,0.80);
+  --surface-opaque: #f4f7fd;
+  --surface-alt:    rgba(240,246,255,0.46);
+  --surface-sunken: transparent;
+  --glass-border:   rgba(255,255,255,0.85);
+  --glass-hairline: rgba(1,40,95,0.12);
+  --glass-highlight:rgba(255,255,255,0.72);
+  --blur: 18px;
+  --blur-strong: 26px;
+
+  /* Generic surface aliases used by existing rules */
+  --bg: var(--mesh-base);
+  --border:        var(--glass-hairline);
+  --border-strong: rgba(1,40,95,0.20);
+
+  /* Text (deep blue-tinted neutrals) */
+  --text:        #0d1b30;
+  --text-muted:  #3b4d68;
+  --text-subtle: #5a6a84;
+  --text-link:   var(--accent-on-light);
+  --tt-bg: #18222f; --tt-fg: #ffffff;   /* tooltip: dark pill / light text */
+
+  /* ===== MOSIP PRIMARY = BLUES. Light mode leans on the DEEP blue #014daf
+     for anything text/interactive; the bright #01a2fd is decorative fill. ===== */
+  --accent:          #014daf;   /* deep blue  — primary button / fill        */
+  --accent-strong:   #013b86;   /* hover / pressed                           */
+  --accent-contrast: #ffffff;   /* white on deep blue (~8.6:1)               */
+  --accent-on-light: #014daf;   /* links/titles on light (~8.6:1 AA)         */
+  --accent-soft:     rgba(1,77,175,0.12);
+  --accent-soft-2:   rgba(1,77,175,0.20);
+  --accent-ink:      #013f8e;   /* text on accent-soft tint                  */
+  --accent-bright:   #01a2fd;   /* MOSIP bright blue — DECORATIVE fills only  */
+  --gold:            #8a6300;   /* darkened gold for any text use (AA)        */
+
+  /* Category accents (card/step edges, registry band). Default = accent.
+     Override these six to bring back a multi-color rhythm. */
+  --cat-1: var(--accent); --cat-2: var(--accent); --cat-3: var(--accent);
+  --cat-4: var(--accent); --cat-5: var(--accent); --cat-6: var(--accent);
+
+  /* Secondary accents (warm + green) — sparing. Text values darkened for AA;
+     vivid hues reserved for fills/icons. */
+  --success:#0a8754; --success-soft: rgba(10,135,84,0.14);  --success-ink:#076b43;
+  --warning:#c25e00; --warning-soft: rgba(250,128,5,0.16);  --warning-ink:#9a4e00;
+  --danger: #c5303a; --danger-soft:  rgba(214,64,69,0.13);  --danger-ink: #a52830;
+  --info: var(--accent); --info-soft: var(--accent-soft);
+
+  /* QR illustration cells */
+  --qr-cell:    rgba(1,40,95,0.10);
+  --qr-cell-on: var(--accent-bright);
+  --qr-badge-bg: rgba(255,255,255,0.88);
+
+  /* On-"dark" tokens are now theme-aware (formerly hardcoded dark sections) */
+  --dark-surface:   var(--surface);
+  --dark-surface-2: var(--surface-strong);
+  --dark-border:    var(--glass-border);
+  --on-dark:        var(--text);
+  --on-dark-muted:  var(--text-muted);
+  --on-dark-subtle: var(--text-subtle);
+
+  /* Glass shadows (soft, diffused) */
+  --shadow-xs: 0 1px 2px rgba(20,30,55,0.06);
+  --shadow-sm: 0 6px 18px rgba(20,30,55,0.08);
+  --shadow-md: 0 10px 30px rgba(20,30,55,0.10);
+  --shadow-lg: 0 20px 50px rgba(20,30,55,0.14);
+  --shadow-xl: 0 30px 70px rgba(20,30,55,0.18);
+  --shadow-accent: 0 12px 30px rgba(1,77,175,0.34);
+
+  /* Card depth system — multi-layer, ink-light. Replaces colored top strokes. */
+  --card-shadow:
+    0 1px 1px rgba(20,30,55,0.04),
+    0 4px 9px -3px rgba(20,30,55,0.07),
+    0 16px 30px -14px rgba(20,30,55,0.14);
+  --card-shadow-lg:
+    0 1px 2px rgba(20,30,55,0.05),
+    0 8px 18px -6px rgba(20,30,55,0.09),
+    0 30px 56px -22px rgba(20,30,55,0.20);
+  --card-shadow-hover:
+    0 2px 4px rgba(20,30,55,0.06),
+    0 12px 24px -8px rgba(20,30,55,0.12),
+    0 34px 60px -22px rgba(20,30,55,0.22);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  /* Page mesh (deep gradient) */
+  --mesh-base: #05101f;
+  /* Deep blue-black base + MOSIP-blue mesh */
+  --mesh-1: rgba(  1,162,253,0.34);   /* bright blue (lead) */
+  --mesh-2: rgba(  1, 77,175,0.42);   /* deep blue          */
+  --mesh-3: rgba(  1,162,253,0.22);   /* bright blue echo   */
+  --mesh-4: rgba( 10,135, 84,0.16);   /* green  (subtle)    */
+  --mesh-5: rgba(250,128,  5,0.14);   /* orange (subtle)    */
+
+  --surface:        rgba(150,200,255,0.08);
+  --surface-strong: rgba(150,200,255,0.13);
+  --surface-opaque: #0c1827;
+  --surface-alt:    rgba(150,200,255,0.06);
+  --surface-sunken: transparent;
+  --glass-border:   rgba(150,200,255,0.18);
+  --glass-hairline: rgba(150,200,255,0.10);
+  --glass-highlight:rgba(190,220,255,0.14);
+
+  --bg: var(--mesh-base);
+  --border:        var(--glass-hairline);
+  --border-strong: rgba(150,200,255,0.24);
+
+  --text:        #eef3fc;
+  --text-muted:  #b4c2da;
+  --text-subtle: #8997b0;
+  --text-link:   var(--accent-on-light);
+  --tt-bg: #eef2fb; --tt-fg: #0d1b30;   /* tooltip: light pill / dark text */
+
+  /* ===== MOSIP PRIMARY (dark) = BRIGHT blue #01a2fd; deep #014daf is lost
+     on dark, so it only tints the mesh. ===== */
+  --accent:          #01a2fd;   /* bright blue — primary fill                */
+  --accent-strong:   #38b6ff;   /* hover (lighter)                          */
+  --accent-contrast: #04223f;   /* dark navy text on bright blue (AA)        */
+  --accent-on-light: #5cbcff;   /* links/titles on dark (~8:1 AA)            */
+  --accent-soft:     rgba(1,162,253,0.22);
+  --accent-soft-2:   rgba(1,162,253,0.30);
+  --accent-ink:      #a6dcff;   /* light blue text on accent-soft           */
+  --accent-bright:   #34b3ff;   /* decorative fills                          */
+  --gold:            #ffcb47;   /* vivid gold for large text on dark         */
+
+  /* Secondary accents (dark) — lightened/desaturated so they stay vivid, not harsh */
+  --success:#2bbd80; --success-soft: rgba(10,135,84,0.24);  --success-ink:#8fe7c2;
+  --warning:#f6a13e; --warning-soft: rgba(250,128,5,0.22);  --warning-ink:#ffc98a;
+  --danger: #ff6b70; --danger-soft:  rgba(214,64,69,0.24);  --danger-ink: #ffa8ab;
+  --info: var(--accent); --info-soft: var(--accent-soft);
+
+  --qr-cell:    rgba(150,200,255,0.10);
+  --qr-cell-on: var(--accent-bright);
+  --qr-badge-bg: rgba(8,16,30,0.74);
+
+  --dark-surface:   var(--surface);
+  --dark-surface-2: var(--surface-strong);
+  --dark-border:    var(--glass-border);
+  --on-dark:        var(--text);
+  --on-dark-muted:  var(--text-muted);
+  --on-dark-subtle: var(--text-subtle);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-sm: 0 6px 18px rgba(0,0,0,0.45);
+  --shadow-md: 0 12px 34px rgba(0,0,0,0.50);
+  --shadow-lg: 0 22px 54px rgba(0,0,0,0.58);
+  --shadow-xl: 0 32px 74px rgba(0,0,0,0.62);
+  --shadow-accent: 0 14px 34px rgba(1,120,210,0.50);
+
+  /* Card depth system (dark) */
+  --card-shadow:
+    0 1px 1px rgba(0,0,0,0.40),
+    0 4px 12px -3px rgba(0,0,0,0.45),
+    0 18px 38px -16px rgba(0,0,0,0.62);
+  --card-shadow-lg:
+    0 1px 2px rgba(0,0,0,0.45),
+    0 10px 22px -6px rgba(0,0,0,0.52),
+    0 34px 64px -24px rgba(0,0,0,0.72);
+  --card-shadow-hover:
+    0 2px 6px rgba(0,0,0,0.50),
+    0 14px 28px -8px rgba(0,0,0,0.58),
+    0 40px 72px -24px rgba(0,0,0,0.78);
+
+  color-scheme: dark;
+}
+
+:root {
+  /* ---- TYPOGRAPHY --------------------------------------------------- */
+  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* ---- ONE TYPE SCALE — compact (~1.2 ratio), body anchored at 15px -- */
+  --text-xs:0.6875rem;   /* 11px — captions / eyebrows            */
+  --text-sm:0.8125rem;   /* 13px — meta, tags, small UI           */
+  --text-base:0.9375rem; /* 15px — BODY / nav / buttons           */
+  --text-md:1rem;        /* 16px — emphasized body / lede-small   */
+  --text-lg: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);         /* 16→17 */
+  --text-xl: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);      /* 17→19 */
+  --text-2xl:clamp(1.125rem, 1.03rem + 0.45vw, 1.375rem);     /* 18→22 */
+  --text-3xl:clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);          /* 20→24 */
+  --text-4xl:clamp(1.5rem, 1.25rem + 1.1vw, 1.875rem);        /* 24→30 */
+  --text-5xl:clamp(1.75rem, 1.35rem + 1.8vw, 2.25rem);        /* 28→36 */
+
+  --leading-tight:1.1; --leading-snug:1.28; --leading-normal:1.55; --leading-relaxed:1.65;
+  --tracking-tight:-0.02em; --tracking-wide:0.08em; --tracking-label:0.14em;
+  --weight-normal:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700; --weight-extra:700;
+  --measure:70ch;
+
+  /* ---- SPACING (8px grid; 4px half-steps) --------------------------- */
+  --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem; --space-5:1.25rem;
+  --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem; --space-12:3rem; --space-16:4rem;
+  --space-20:5rem; --space-24:6rem; --space-32:8rem;
+  /* Section rhythm — ONE system, tuned in one place.
+     --section-y  : padding-block on every .section (a bg-change boundary then
+                    reads ~2× this → ~40px mobile, ~64px desktop).
+     --section-head-gap : uniform heading→content gap (~24px). */
+  --section-y: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+  --section-head-gap: var(--space-6);
+
+  /* ---- LAYOUT ------------------------------------------------------- */
+  --container:1200px; --container-wide:1320px;
+  --gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  --header-h:64px;
+
+  /* ---- RADIUS (rounded, soft) --------------------------------------- */
+  --radius-sm:8px; --radius-md:12px; --radius-lg:18px; --radius-xl:24px; --radius-2xl:30px; --radius-pill:999px;
+
+  /* ---- ICON SCALE --------------------------------------------------- */
+  --icon-xs:14px;   /* pill / meta glyphs            */
+  --icon-sm:16px;   /* inline-with-text, hero badge  */
+  --icon-md:20px;   /* boxed icon buttons / toggles  */
+  --icon-lg:24px;   /* feature-tile & section icons  */
+  /* Tinted feature tile (the rounded coloured icon container) */
+  --icon-tile:48px;
+  --icon-tile-radius:var(--radius-md);
+
+  /* ---- MOTION ------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast:120ms; --dur:220ms; --dur-slow:420ms;
+
+  /* ---- FOCUS RING --------------------------------------------------- */
+  --focus-ring: 0 0 0 3px var(--accent-soft-2), 0 0 0 5px var(--accent);
+
+  --z-header:100; --z-overlay:200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast:1ms; --dur:1ms; --dur-slow:1ms; }
+}
