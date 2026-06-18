@@ -1463,11 +1463,11 @@ html.theme-transition, html.theme-transition * {
 
 /* ---- Section 1: 6-step horizontal flow with connectors --------------- */
 .proc-flow { display: flex; flex-direction: column; gap: var(--space-3); align-items: stretch; }
-.proc-flow .process-step { flex: 1 1 0; }
 .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent-on-light); }
 .flow-arrow svg { width: 24px; height: 24px; stroke: currentColor; transform: rotate(90deg); transition: transform var(--dur) var(--ease); }
 @media (min-width: 1024px) {
   .proc-flow { flex-direction: row; align-items: stretch; gap: var(--space-1); }
+  .proc-flow .process-step { flex: 1 1 0; min-width: 0; }
   .flow-arrow svg { transform: none; }
 }
 
