@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - MOSIP-45104
-      - main
     paths:
       - 'id-claim-169-ui/**'
   workflow_dispatch:
     inputs:
+      update_s3:
+        description: 'Sync latest code to S3 (uncheck to only invalidate CloudFront cache)'
+        required: false
+        type: boolean
+        default: false
       invalidate_only:
         description: 'Skip S3 sync and only invalidate CloudFront cache'
         required: false
@@ -22,6 +26,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: main
     steps:
       - name: Checkout repository
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
@@ -33,7 +38,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Sync files to S3
-        if: github.event_name != 'workflow_dispatch' || inputs.invalidate_only == false
+        if: github.event_name != 'workflow_dispatch' || inputs.update_s3 == true
         run: |
           aws s3 sync id-claim-169-ui s3://${{ vars.S3_BUCKET_NAME }} \
             --delete \
