@@ -155,7 +155,6 @@
 
     // ---- single source of truth -------------------------------------
     var activeId = null;
-    var lockUntil = 0; // clicks set this so the observer can't override mid-scroll
     var setActive = function (id) {
       activeId = id;
       links.forEach(function (a) {
@@ -170,20 +169,19 @@
     var headerH = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
 
     var bottomReached = false;
-    // Active = topmost section overlapping the band just below the sticky
-    // header (down to ~38% of the viewport). Uses live getBoundingClientRect
-    // (viewport-relative) so it's correct regardless of which element scrolls.
+    // Active = the LAST section whose top has passed just below the sticky
+    // header (i.e. the one you're currently reading). Picking by "last top
+    // above the trigger line" — not "topmost still overlapping" — prevents the
+    // previous section's tail from keeping its nav item lit (e.g. Resources
+    // staying active after scrolling to Contribute).
     var recompute = function () {
-      if (Date.now() < lockUntil) return;
       if (bottomReached) { setActive(sections[sections.length - 1].id); return; }
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var bandTop = headerH + 4;
-      var bandBottom = vh * 0.38;
+      var line = headerH + 20;
+      var current = null;
       for (var i = 0; i < sections.length; i++) {
-        var r = sections[i].el.getBoundingClientRect();
-        if (r.top <= bandBottom && r.bottom > bandTop) { setActive(sections[i].id); return; }
+        if (sections[i].el.getBoundingClientRect().top <= line) current = sections[i];
       }
-      setActive(null); // hero / between sections → nothing highlighted
+      setActive(current ? current.id : null); // above first section → nothing
     };
 
     // IntersectionObserver fires recompute as sections cross the band edges;
@@ -214,23 +212,47 @@
       recompute();
     }, { rootMargin: "0px 0px 120px 0px", threshold: 0 }).observe(sentinel);
 
-    // Click: set active immediately + lock so smooth-scroll isn't overridden.
-    navEl.addEventListener("click", function (e) {
-      var a = e.target.closest('ul a[href^="#"]');
-      if (!a) return;
-      var id = a.getAttribute("href").slice(1);
-      if (!document.getElementById(id)) return;
-      setActive(id);
-      lockUntil = Date.now() + 900;
-    });
-
     // Initial load with a hash (e.g. /#use-cases) → highlight that item.
     var hash = (location.hash || "").slice(1);
-    if (hash && sections.some(function (s) { return s.id === hash; })) {
-      setActive(hash);
-      lockUntil = Date.now() + 900;
-    }
+    if (hash && sections.some(function (s) { return s.id === hash; })) setActive(hash);
     recompute();
+  })();
+
+  /* ------------------------------------------ FLUID IN-PAGE SCROLL ----- */
+  /* One rAF-driven smooth scroll for EVERY same-page anchor (nav, footer,
+     CTAs, arrow-links). Firing continuous scroll events is what lets the nav
+     scrollspy track the highlight live — including from footer links, which
+     CSS scroll-behavior:smooth failed to drive reliably. Skips the skip-link
+     (keep focus behaviour) and component jump-navs that self-manage. */
+  (function () {
+    var headerEl = document.querySelector(".site-header");
+    var hH = function () { return headerEl ? headerEl.offsetHeight : 64; };
+    var easeInOut = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var animId = 0;
+    var glideTo = function (toY, dur) {
+      cancelAnimationFrame(animId);
+      var fromY = window.pageYOffset, diff = toY - fromY, t0 = null;
+      var stepFn = function (ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        window.scrollTo(0, fromY + diff * easeInOut(p));
+        if (p < 1) animId = requestAnimationFrame(stepFn);
+      };
+      animId = requestAnimationFrame(stepFn);
+    };
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a || a.classList.contains("skip-link") || a.closest("#faq-nav")) return;
+      var href = a.getAttribute("href");
+      if (!href || href.length < 2) return;
+      var target = document.getElementById(href.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      var toY = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - hH() - 12);
+      if (reduceMotion) { window.scrollTo(0, toY); }
+      else { var dist = Math.abs(toY - window.pageYOffset); glideTo(toY, Math.min(950, Math.max(420, dist * 0.55))); }
+      try { history.pushState(null, "", href); } catch (err) {}
+    });
   })();
 
   /* ------------------------------------------- HEADER SCROLL SHADOW ---- */
