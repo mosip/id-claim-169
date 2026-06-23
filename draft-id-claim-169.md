@@ -212,7 +212,7 @@ All the fields here are OPTIONAL.
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
-      3: VendorA # Biometric data issuer   
+      3: VendorA # Biometric data issuer
     # Left Ring Finger template
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Template
@@ -224,7 +224,7 @@ All the fields here are OPTIONAL.
       1: 1 # Image
       2: 6 # WSQ
       3: VendorX # Biometric data issuer
-    # Right Iris image 
+    # Right Iris image
     - 0: 36F2C546(...)CB90378C58 # Data
       1: 1 # Image
       2: 6 # WSQ
@@ -240,7 +240,7 @@ All the fields here are OPTIONAL.
       1: 1 # Template
       2: 100 # Vendor specific
       3: VendorY # Biometric data issuer
-   65: # Voice Biometrics   
+   65: # Voice Biometrics
     # Voice sound
     - 0: 03CBA(...)0378C58 # Data
       1: 2 # Sound

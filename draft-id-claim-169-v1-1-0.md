@@ -1,10 +1,11 @@
 %%%
-docname: draft-id-claim-169-v1-1-0-latest
-title: "169 - QR Code Specifications"
-version: "1.1.0"
-authors:
-  - "Mahammed Taheer <mohd.taheer@gmail.com>"
-  - "Resham Chugani <resham@mosip.io>"
+docname = "draft-id-claim-169-v1-1-0-latest"
+title = "169 - QR Code Specifications"
+version = "1.1.0"
+authors = [
+  "Mahammed Taheer <mohd.taheer@gmail.com>",
+  "Resham Chugani <resham@mosip.io>"
+]
 %%%
 
 # 169 - QR Code Specifications
