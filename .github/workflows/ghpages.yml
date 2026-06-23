@@ -6,12 +6,14 @@ on:
     - CONTRIBUTING.md
     - LICENSE.md
     - .gitignore
+    - id-claim-169-ui/**
   pull_request:
     paths-ignore:
     - README.md
     - CONTRIBUTING.md
     - LICENSE.md
     - .gitignore
+    - id-claim-169-ui/**
 jobs:
   build:
     name: "Update Editor's Copy"
