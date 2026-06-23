@@ -1,4 +1,4 @@
-+++
+%%%
 docname = "draft-id-claim-169-v1-2-0-latest"
 title = "169 - QR Code Specifications"
 version = "1.2.0"
@@ -6,7 +6,7 @@ authors = [
     "Mahammed Taheer <mohd.taheer@gmail.com>",
     "Resham Chugani <resham@mosip.io>"
 ]
-+++
+%%%
 
 # 169 - QR Code Specifications
 
