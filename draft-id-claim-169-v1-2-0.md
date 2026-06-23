@@ -1,4 +1,4 @@
-%%%
+---
 docname = "draft-id-claim-169-v1-2-0-latest"
 title = "169 - QR Code Specifications"
 version = "1.2.0"
@@ -13,7 +13,7 @@ value = "draft-id-claim-169-v1-2-0"
 stream = "IETF"
 status = "standard"
 
-%%%
+---
 
 # 169 - QR Code Specifications
 
