@@ -6,6 +6,13 @@ authors = [
     "Mahammed Taheer <mohd.taheer@gmail.com>",
     "Resham Chugani <resham@mosip.io>"
 ]
+
+[seriesInfo]
+name = "Internet-Draft"
+value = "draft-id-claim-169-v1-2-0"
+stream = "IETF"
+status = "standard"
+
 %%%
 
 # 169 - QR Code Specifications
