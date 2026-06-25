@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./assets/mosip-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>How It Works — Claim 169</title>
     <link rel="icon" type="image/png" href="./assets/mosip-logo.png" />
@@ -347,25 +348,14 @@
             ></span>
             <div class="process-step">
               <div class="process-step__head">
-                <span
-                  class="process-step__badge"
-                  style="
-                    color: rgb(1, 77, 175);
-                    background-color: rgba(1, 77, 175, 0.14);
-                  "
+                <span class="process-step__badge"
                   ><svg
                     viewBox="0 0 24 24"
                     stroke-width="1.8"
                     aria-hidden="true"
                   >
-                    <path
-                      d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
-                      style="stroke: rgb(1, 77, 175)"
-                    />
-                    <path
-                      d="m10 17 5-5-5-5M15 12H3"
-                      style="stroke: rgb(1, 77, 175)"
-                    /></svg></span
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                    <path d="m10 17 5-5-5-5M15 12H3" /></svg></span
                 ><span class="process-step__num">06</span>
               </div>
               <h3>Access Service</h3>
@@ -394,7 +384,6 @@
               </p>
               <span class="chip chip--accent">CBOR (RFC 8949)</span>
             </article>
-
             <article class="pipeline-card">
               <span class="pipeline-card__num">02</span>
               <h3>Generate CWT Claims</h3>
@@ -404,7 +393,6 @@
               </p>
               <span class="chip chip--accent">CWT (RFC 8392)</span>
             </article>
-
             <article class="pipeline-card">
               <span class="pipeline-card__num">03</span>
               <h3>Protect with COSE_Sign1</h3>
@@ -417,7 +405,6 @@
                 >COSE_Sign1 (RFC 9052, RFC 9053)</span
               >
             </article>
-
             <article class="pipeline-card">
               <span class="pipeline-card__num">04</span>
               <h3>Compress</h3>
@@ -427,7 +414,6 @@
               </p>
               <span class="chip chip--accent">zlib / Brotli</span>
             </article>
-
             <article class="pipeline-card">
               <span class="pipeline-card__num">05</span>
               <h3>Encode Base45</h3>
@@ -437,7 +423,6 @@
               </p>
               <span class="chip chip--accent">Base45 (RFC 9285)</span>
             </article>
-
             <article class="pipeline-card">
               <span class="pipeline-card__num">06</span>
               <h3>Generate QR Code</h3>
@@ -461,7 +446,7 @@
           </div>
 
           <div class="vp-flow">
-            <div class="vp-step">
+            <div class="vp-step reveal" style="transition-delay: 0ms">
               <span class="vp-step__num">1</span>
               <p>Verify CWT as COSE Sign1 per RFC 8152 §4</p>
             </div>
@@ -469,7 +454,7 @@
               ><svg viewBox="0 0 24 24" stroke-width="2">
                 <path d="M5 12h14M13 6l6 6-6 6" /></svg
             ></span>
-            <div class="vp-step">
+            <div class="vp-step reveal" style="transition-delay: 90ms">
               <span class="vp-step__num">2</span>
               <p>Extract COSE payload as Message</p>
             </div>
@@ -477,7 +462,7 @@
               ><svg viewBox="0 0 24 24" stroke-width="2">
                 <path d="M5 12h14M13 6l6 6-6 6" /></svg
             ></span>
-            <div class="vp-step">
+            <div class="vp-step reveal" style="transition-delay: 180ms">
               <span class="vp-step__num">3</span>
               <p>Validate signature authenticity</p>
             </div>
@@ -485,7 +470,7 @@
               ><svg viewBox="0 0 24 24" stroke-width="2">
                 <path d="M5 12h14M13 6l6 6-6 6" /></svg
             ></span>
-            <div class="vp-step">
+            <div class="vp-step reveal" style="transition-delay: 270ms">
               <span class="vp-step__num">4</span>
               <p>Validate public key against preconfigured keys</p>
             </div>
