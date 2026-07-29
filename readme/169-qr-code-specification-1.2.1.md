@@ -8,7 +8,7 @@
 
 **Semantics**: Identity Data of a Person in QR-Code
 
-**Point of Contact**: Resham Chugani ([resham@mosip.io](mailto:resham@mosip.io))
+**Point of Contact**: Resham Chugani and team ([resham@mosip.io](mailto:resham@mosip.io))
 
 **IANA Registration**: [IANA CWT Registry](https://www.iana.org/assignments/cwt/cwt.xhtml) (Search for: 169)
 
