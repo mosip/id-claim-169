@@ -14,7 +14,7 @@
 
 **Version:** 1.2.0
 
-**Release Date**: 27th January, 2025
+**Release Date**: 27th January, 2026
 
 ### 1. Introduction
 
